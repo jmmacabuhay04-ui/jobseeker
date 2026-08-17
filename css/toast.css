@@ -1,0 +1,27 @@
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast {
+    position: fixed;
+
+    right: 20px;
+
+    bottom: 20px;
+
+    background:
+        var(--dark);
+
+    color: white;
+
+    padding:
+        14px 18px;
+
+    border-radius: 8px;
+
+    z-index: 5000;
+
+    display: none;
+
+    box-shadow: var(--shadow);
+}

@@ -1,0 +1,31 @@
+/* =========================================================
+   PANELS
+========================================================= */
+
+.panel {
+    background: white;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 12px;
+
+    padding: 28px;
+}
+
+.panel+.panel {
+    margin-top: 20px;
+}
+
+.panel h2 {
+    margin-bottom: 23px;
+}
+
+.form-row {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 18px;
+}

@@ -1,0 +1,27 @@
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.empty {
+    background: white;
+
+    border:
+        1px dashed var(--border);
+
+    border-radius: 12px;
+
+    padding: 50px;
+
+    text-align: center;
+
+    color: var(--muted);
+
+    grid-column:
+        1 / -1;
+}
+
+.empty h3 {
+    color: var(--text);
+
+    margin-bottom: 7px;
+}

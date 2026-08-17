@@ -1,0 +1,171 @@
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+.dashboard {
+    display: grid;
+
+    grid-template-columns:
+        240px 1fr;
+
+    gap: 25px;
+}
+
+.sidebar {
+    background: white;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 12px;
+
+    padding: 15px;
+
+    height: fit-content;
+
+    position: sticky;
+
+    top: 95px;
+}
+
+.sidebar-user {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding:
+        10px 8px 20px;
+
+    margin-bottom: 10px;
+
+    border-bottom:
+        1px solid var(--border);
+}
+
+.sidebar-user strong {
+    display: block;
+}
+
+.sidebar-user small {
+    color: var(--muted);
+}
+
+.avatar {
+    width: 42px;
+
+    height: 42px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        var(--primary-light);
+}
+
+.sidebar-link {
+    display: block;
+
+    width: 100%;
+
+    text-align: left;
+
+    border: none;
+
+    background: transparent;
+
+    padding: 12px;
+
+    border-radius: 7px;
+
+    margin-bottom: 5px;
+
+    color: var(--text);
+}
+
+.sidebar-link:hover,
+.sidebar-link.active {
+    background:
+        var(--primary-light);
+
+    color: var(--primary);
+}
+
+.dashboard-content {
+    min-width: 0;
+}
+
+.dashboard-heading {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: end;
+
+    margin-bottom: 25px;
+}
+
+.dashboard-heading h1 {
+    font-size: 32px;
+}
+
+.dashboard-stats {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 18px;
+}
+
+.dashboard-stat {
+    background: white;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 12px;
+
+    padding: 22px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+}
+
+.dashboard-stat>span {
+    font-size: 28px;
+
+    width: 48px;
+
+    height: 48px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        var(--primary-light);
+
+    border-radius: 10px;
+}
+
+.dashboard-stat h2 {
+    color: var(--primary);
+}
+
+.dashboard-stat p {
+    color: var(--muted);
+
+    font-size: 13px;
+}

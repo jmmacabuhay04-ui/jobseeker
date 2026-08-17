@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>JobSeeker | Find Your Dream Job</title>
+
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/button.css">
+    <link rel="stylesheet" href="css/hero.css">
+    <link rel="stylesheet" href="css/search.css">
+    <link rel="stylesheet" href="css/statistic.css">
+    <link rel="stylesheet" href="css/job.css">
+    <link rel="stylesheet" href="css/section.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/modal.css">
+    <link rel="stylesheet" href="css/toast.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/panel.css">
+    <link rel="stylesheet" href="css/table.css">
+    <link rel="stylesheet" href="css/statistics.css">
+    <link rel="stylesheet" href="css/section.css">
+    <link rel="stylesheet" href="css/about.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/badge.css">
+    <link rel="stylesheet" href="css/emptystate.css">
+    <link rel="stylesheet" href="css/filter.css">
+
+</head>
+
+<body>
+
+    <!-- =========================
+         NAVIGATION
+    ========================== -->
+    <header class="navbar">
+
+        <div class="container nav-container">
+
+            <div class="logo" onclick="showPage('home')">
+                Work<span>Zone</span>
+            </div>
+
+            <button class="mobile-menu" onclick="toggleMenu()">
+                ☰
+            </button>
+
+            <nav id="navLinks">
+
+                <button onclick="showPage('home')">
+                    Home
+                </button>
+
+                <button onclick="showPage('jobs')">
+                    Find Jobs
+                </button>
+
+                <button onclick="showPage('about')">
+                    About
+                </button>
+
+                <span id="guestNav">
+
+                    <button onclick="showPage('login')">
+                        Login
+                    </button>
+
+                    <button class="nav-register" onclick="showPage('register')">
+                        Register
+                    </button>
+
+                </span>
+
+                <span id="userNav" class="hidden">
+
+                    <button onclick="showPage('dashboard')">
+                        Dashboard
+                    </button>
+
+                    <button onclick="logout()">
+                        Logout
+                    </button>
+
+                </span>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================
+         HOME PAGE
+    ========================== -->
+    <main id="homePage">
+
+        <section class="hero">
+
+            <div class="container hero-content">
+
+                <h1>
+                    Find Your
+                    <span>Work Zone</span>
+                </h1>
+
+                <p>
+                    Discover the right opportunity,
+                    connect with employers, and build
+                    your career.
+                </p>
+
+
+                <div class="search-box">
+
+                    <div class="search-field">
+
+                        <span>🔎</span>
+
+                        <input type="text" id="homeKeyword" placeholder="Job title, skill or keyword">
+
+                    </div>
+
+
+                    <div class="search-field">
+
+                        <span>📍</span>
+
+                        <input type="text" id="homeLocation" placeholder="Location">
+
+                    </div>
+
+
+                    <select id="homeCategory">
+
+                        <option value="">
+                            All Categories
+                        </option>
+
+                        <option value="IT">
+                            Information Technology
+                        </option>
+
+                        <option value="Design">
+                            Design
+                        </option>
+
+                        <option value="Marketing">
+                            Marketing
+                        </option>
+
+                        <option value="Finance">
+                            Finance
+                        </option>
+
+                        <option value="Education">
+                            Education
+                        </option>
+
+                    </select>
+
+
+                    <button class="btn btn-primary search-btn" onclick="searchFromHome()">
+
+                        Search Jobs
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- STATISTICS -->
+
+        <section class="container stats-section">
+
+            <div class="stats">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        💼
+                    </div>
+
+                    <div>
+                        <h2 id="homeJobCount">0</h2>
+                        <p>Available Jobs</p>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        🏢
+                    </div>
+
+                    <div>
+                        <h2 id="homeCompanyCount">0</h2>
+                        <p>Companies</p>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        👥
+                    </div>
+
+                    <div>
+                        <h2 id="homeApplicantCount">0</h2>
+                        <p>Applicants</p>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        🌎
+                    </div>
+
+                    <div>
+                        <h2>24/7</h2>
+                        <p>Job Access</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- FEATURED JOBS -->
+
+        <section class="section">
+
+            <div class="container">
+
+                <div class="section-header">
+
+                    <div>
+                        <span class="section-label">
+                            OPPORTUNITIES
+                        </span>
+
+                        <h2>
+                            Featured Jobs
+                        </h2>
+                    </div>
+
+                    <button class="btn btn-outline" onclick="showPage('jobs')">
+
+                        View All Jobs →
+
+                    </button>
+
+                </div>
+
+
+                <div id="featuredJobs" class="job-grid">
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================
+         JOBS PAGE
+    ========================== -->
+    <section id="jobsPage" class="page hidden">
+
+        <div class="container">
+
+            <div class="page-heading">
+
+                <span class="section-label">
+                    OPPORTUNITIES
+                </span>
+
+                <h1>
+                    Find Your Next Job
+                </h1>
+
+                <p>
+                    Search and filter available job opportunities.
+                </p>
+
+            </div>
+
+
+            <div class="filter-box">
+
+                <div class="filter-grid">
+
+                    <div>
+
+                        <label>
+                            Keyword
+                        </label>
+
+                        <input class="form-control" id="filterKeyword" placeholder="Search jobs..."
+                            oninput="filterJobs()">
+
+                    </div>
+
+
+                    <div>
+
+                        <label>
+                            Location
+                        </label>
+
+                        <input class="form-control" id="filterLocation" placeholder="e.g. Manila"
+                            oninput="filterJobs()">
+
+                    </div>
+
+
+                    <div>
+
+                        <label>
+                            Category
+                        </label>
+
+                        <select class="form-control" id="filterCategory" onchange="filterJobs()">
+
+                            <option value="">
+                                All Categories
+                            </option>
+
+                            <option value="IT">
+                                IT
+                            </option>
+
+                            <option value="Design">
+                                Design
+                            </option>
+
+                            <option value="Marketing">
+                                Marketing
+                            </option>
+
+                            <option value="Finance">
+                                Finance
+                            </option>
+
+                            <option value="Education">
+                                Education
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div>
+
+                        <label>
+                            Employment Type
+                        </label>
+
+                        <select class="form-control" id="filterType" onchange="filterJobs()">
+
+                            <option value="">
+                                All Types
+                            </option>
+
+                            <option value="Full Time">
+                                Full Time
+                            </option>
+
+                            <option value="Part Time">
+                                Part Time
+                            </option>
+
+                            <option value="Remote">
+                                Remote
+                            </option>
+
+                            <option value="Internship">
+                                Internship
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <button class="btn btn-secondary" onclick="clearFilters()">
+
+                    Clear Filters
+
+                </button>
+
+            </div>
+
+
+            <div id="allJobs" class="job-grid">
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         ABOUT PAGE
+    ========================== -->
+    <section id="aboutPage" class="page hidden">
+
+        <div class="container">
+
+            <div class="about-card">
+
+                <span class="section-label">
+                    ABOUT US
+                </span>
+
+                <h1>
+                    About WorkZone
+                </h1>
+
+                <p>
+                    WorkZone is a job portal system designed
+                    to connect workzone with employers.
+                </p>
+
+                <p>
+                    Work zone can search for jobs, create
+                    profiles, save jobs, apply for positions,
+                    and monitor their applications.
+                </p>
+
+                <p>
+                    Employers can create job postings and
+                    manage applicants.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         LOGIN PAGE
+    ========================== -->
+    <section id="loginPage" class="auth-page hidden">
+
+        <div class="auth-card">
+
+            <div class="auth-icon">
+                🔐
+            </div>
+
+            <h1>
+                Welcome Back
+            </h1>
+
+            <p class="auth-subtitle">
+                Login to your WorkZone account.
+            </p>
+
+
+            <form onsubmit="login(event)">
+
+                <div class="form-group">
+
+                    <label>
+                        Email
+                    </label>
+
+                    <input class="form-control" id="loginEmail" type="email" placeholder="Enter your email" required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Password
+                    </label>
+
+                    <input class="form-control" id="loginPassword" type="password" placeholder="Enter your password"
+                        required>
+
+                </div>
+
+
+                <button class="btn btn-primary full-width">
+
+                    Login
+
+                </button>
+
+            </form>
+
+
+            <p class="auth-switch">
+
+                Don't have an account?
+
+                <a onclick="showPage('register')">
+                    Create one
+                </a>
+
+            </p>
+
+
+            <div class="demo-account">
+
+                <strong>Demo Admin</strong>
+
+                <br>
+
+                Email:
+                admin@workzone.com
+
+                <br>
+
+                Password:
+                admin123
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         REGISTER PAGE
+    ========================== -->
+    <section id="registerPage" class="auth-page hidden">
+
+        <div class="auth-card">
+
+            <div class="auth-icon">
+                👤
+            </div>
+
+            <h1>
+                Create Account
+            </h1>
+
+            <p class="auth-subtitle">
+                Join WorkZone today.
+            </p>
+
+
+            <form onsubmit="register(event)">
+
+                <div class="form-group">
+
+                    <label>
+                        Full Name
+                    </label>
+
+                    <input class="form-control" id="registerName" placeholder="Your full name" required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Email
+                    </label>
+
+                    <input class="form-control" id="registerEmail" type="email" placeholder="your@email.com" required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Password
+                    </label>
+
+                    <input class="form-control" id="registerPassword" type="password" minlength="6"
+                        placeholder="Minimum 6 characters" required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Account Type
+                    </label>
+
+                    <select class="form-control" id="registerRole">
+
+                        <option value="seeker">
+                            Job
+                        </option>
+
+                        <option value="employer">
+                            Employer
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <button class="btn btn-primary full-width">
+
+                    Create Account
+
+                </button>
+
+            </form>
+
+
+            <p class="auth-switch">
+
+                Already have an account?
+
+                <a onclick="showPage('login')">
+                    Login
+                </a>
+
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         DASHBOARD
+    ========================== -->
+    <section id="dashboardPage" class="page hidden">
+
+        <div class="container dashboard">
+
+            <!-- SIDEBAR -->
+
+            <aside class="sidebar">
+
+                <div class="sidebar-user">
+
+                    <div class="avatar">
+                        👤
+                    </div>
+
+                    <div>
+                        <strong id="sidebarName">
+                            User
+                        </strong>
+
+                        <small id="sidebarRole">
+                            Work Zone
+                        </small>
+                    </div>
+
+                </div>
+
+
+                <button class="sidebar-link active" onclick="dashboardTab('overview', this)">
+
+                    📊
+                    Overview
+
+                </button>
+
+
+                <button class="sidebar-link" onclick="dashboardTab('profile', this)">
+
+                    👤
+                    My Profile
+
+                </button>
+
+
+                <button class="sidebar-link" onclick="dashboardTab('applications', this)">
+
+                    📋
+                    Applications
+
+                </button>
+
+
+                <button class="sidebar-link" onclick="dashboardTab('saved', this)">
+
+                    ⭐
+                    Saved Jobs
+
+                </button>
+
+
+                <button id="employerMenu" class="sidebar-link hidden" onclick="dashboardTab('employer', this)">
+
+                    💼
+                    Employer
+
+                </button>
+
+            </aside>
+
+
+            <!-- DASHBOARD CONTENT -->
+
+            <div class="dashboard-content">
+
+                <!-- OVERVIEW -->
+
+                <div id="tabOverview" class="dashboard-tab">
+
+                    <div class="dashboard-heading">
+
+                        <div>
+
+                            <span class="section-label">
+                                DASHBOARD
+                            </span>
+
+                            <h1>
+                                Welcome,
+                                <span id="dashboardName">
+                                    User
+                                </span>!
+                            </h1>
+
+                        </div>
+
+                        <button class="btn btn-primary" onclick="showPage('jobs')">
+
+                            Find Jobs
+
+                        </button>
+
+                    </div>
+
+
+                    <div class="dashboard-stats">
+
+                        <div class="dashboard-stat">
+
+                            <span>📋</span>
+
+                            <div>
+                                <h2 id="dashApplications">
+                                    0
+                                </h2>
+
+                                <p>
+                                    Applications
+                                </p>
+                            </div>
+
+                        </div>
+
+
+                        <div class="dashboard-stat">
+
+                            <span>⭐</span>
+
+                            <div>
+                                <h2 id="dashSaved">
+                                    0
+                                </h2>
+
+                                <p>
+                                    Saved Jobs
+                                </p>
+                            </div>
+
+                        </div>
+
+
+                        <div class="dashboard-stat">
+
+                            <span>💼</span>
+
+                            <div>
+                                <h2 id="dashPosted">
+                                    0
+                                </h2>
+
+                                <p>
+                                    Jobs Posted
+                                </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PROFILE -->
+
+                <div id="tabProfile" class="dashboard-tab hidden">
+
+                    <div class="panel">
+
+                        <h2>
+                            My Profile
+                        </h2>
+
+                        <form onsubmit="saveProfile(event)">
+
+                            <div class="form-row">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Full Name
+                                    </label>
+
+                                    <input class="form-control" id="profileName" required>
+
+                                </div>
+
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Email
+                                    </label>
+
+                                    <input class="form-control" id="profileEmail" type="email" required>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-row">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Phone
+                                    </label>
+
+                                    <input class="form-control" id="profilePhone" placeholder="+63...">
+
+                                </div>
+
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Skills
+                                    </label>
+
+                                    <input class="form-control" id="profileSkills" placeholder="HTML, CSS, JavaScript">
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    Education
+                                </label>
+
+                                <textarea class="form-control" id="profileEducation" rows="4"
+                                    placeholder="Your education">
+                                </textarea>
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    Work Experience
+                                </label>
+
+                                <textarea class="form-control" id="profileExperience" rows="4"
+                                    placeholder="Your work experience">
+                                </textarea>
+
+                            </div>
+
+
+                            <button class="btn btn-primary">
+                                Save Profile
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+
+                <!-- APPLICATIONS -->
+
+                <div id="tabApplications" class="dashboard-tab hidden">
+
+                    <div class="panel">
+
+                        <div class="panel-heading">
+
+                            <h2>
+                                My Applications
+                            </h2>
+
+                        </div>
+
+                        <div id="applicationTable">
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SAVED JOBS -->
+
+                <div id="tabSaved" class="dashboard-tab hidden">
+
+                    <div class="panel">
+
+                        <h2>
+                            Saved Jobs
+                        </h2>
+
+                        <div id="savedJobList" class="job-grid">
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- EMPLOYER -->
+
+                <div id="tabEmployer" class="dashboard-tab hidden">
+
+                    <div class="panel">
+
+                        <h2>
+                            Post a Job
+                        </h2>
+
+
+                        <form onsubmit="postJob(event)">
+
+                            <div class="form-row">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Job Title
+                                    </label>
+
+                                    <input class="form-control" id="postTitle" required>
+
+                                </div>
+
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Company
+                                    </label>
+
+                                    <input class="form-control" id="postCompany" required>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-row">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Location
+                                    </label>
+
+                                    <input class="form-control" id="postLocation" required>
+
+                                </div>
+
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Salary
+                                    </label>
+
+                                    <input class="form-control" id="postSalary" placeholder="₱30,000 - ₱50,000"
+                                        required>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-row">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Category
+                                    </label>
+
+                                    <select class="form-control" id="postCategory">
+
+                                        <option value="IT">
+                                            IT
+                                        </option>
+
+                                        <option value="Design">
+                                            Design
+                                        </option>
+
+                                        <option value="Marketing">
+                                            Marketing
+                                        </option>
+
+                                        <option value="Finance">
+                                            Finance
+                                        </option>
+
+                                        <option value="Education">
+                                            Education
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Employment Type
+                                    </label>
+
+                                    <select class="form-control" id="postType">
+
+                                        <option>
+                                            Full Time
+                                        </option>
+
+                                        <option>
+                                            Part Time
+                                        </option>
+
+                                        <option>
+                                            Remote
+                                        </option>
+
+                                        <option>
+                                            Internship
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    Skills
+                                </label>
+
+                                <input class="form-control" id="postSkills" placeholder="HTML, CSS, JavaScript"
+                                    required>
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    Job Description
+                                </label>
+
+                                <textarea class="form-control" id="postDescription" rows="5" required>
+                                </textarea>
+
+                            </div>
+
+
+                            <button class="btn btn-primary">
+                                Publish Job
+                            </button>
+
+                        </form>
+
+                    </div>
+
+
+                    <div class="panel">
+
+                        <h2>
+                            My Posted Jobs
+                        </h2>
+
+                        <div id="postedJobs">
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         JOB DETAILS MODAL
+    ========================== -->
+
+    <div id="jobModal" class="modal hidden">
+
+        <div class="modal-box">
+
+            <button class="modal-close" onclick="closeModal()">
+
+                ×
+
+            </button>
+
+
+            <span class="section-label">
+                JOB DETAILS
+            </span>
+
+
+            <h2 id="modalTitle">
+                Job Title
+            </h2>
+
+
+            <p id="modalCompany" class="modal-company">
+            </p>
+
+
+            <div class="modal-info">
+
+                <span id="modalLocation">
+                </span>
+
+                <span id="modalSalary">
+                </span>
+
+                <span id="modalType">
+                </span>
+
+            </div>
+
+
+            <hr>
+
+
+            <h3>
+                Job Description
+            </h3>
+
+            <p id="modalDescription">
+            </p>
+
+
+            <h3>
+                Required Skills
+            </h3>
+
+            <div id="modalSkills" class="tags">
+            </div>
+
+
+            <div class="modal-actions">
+
+                <button class="btn btn-primary" onclick="applyFromModal()">
+
+                    Apply Now
+
+                </button>
+
+
+                <button class="btn btn-secondary" onclick="saveCurrentJob()">
+
+                    ⭐ Save Job
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- TOAST -->
+
+    <div id="toast" class="toast">
+    </div>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <div class="container">
+
+            <div class="footer-logo">
+                WorkZone
+            </div>
+
+            <p>
+                Find opportunities. Build your future.
+            </p>
+
+            <p class="copyright">
+                © 2026 WorkZone. All Rights Reserved.
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,91 @@
+/* =========================================================
+   JOB GRID
+========================================================= */
+
+.job-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 20px;
+}
+
+.job-card {
+    background: white;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 12px;
+
+    padding: 23px;
+
+    transition:
+        transform 0.2s,
+        box-shadow 0.2s;
+}
+
+.job-card:hover {
+    transform:
+        translateY(-4px);
+
+    box-shadow:
+        var(--shadow);
+}
+
+.job-card h3 {
+    color: var(--primary);
+
+    font-size: 20px;
+
+    margin-bottom: 5px;
+}
+
+.company {
+    font-weight: bold;
+}
+
+.meta {
+    color: var(--muted);
+
+    margin:
+        5px 0;
+}
+
+.tags {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 6px;
+
+    margin:
+        14px 0;
+}
+
+.tag {
+    background:
+        var(--primary-light);
+
+    color: var(--primary);
+
+    padding:
+        5px 9px;
+
+    border-radius: 20px;
+
+    font-size: 12px;
+
+    font-weight: bold;
+}
+
+.job-actions {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 8px;
+
+    margin-top: 18px;
+}

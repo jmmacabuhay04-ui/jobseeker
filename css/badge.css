@@ -1,0 +1,46 @@
+/* =========================================================
+   BADGES
+========================================================= */
+
+.badge {
+    display: inline-block;
+
+    padding:
+        5px 9px;
+
+    border-radius: 20px;
+
+    font-size: 12px;
+
+    font-weight: bold;
+}
+
+.badge-pending {
+    background: #fef3c7;
+
+    color: #92400e;
+}
+
+.badge-reviewed {
+    background: #dbeafe;
+
+    color: #1e40af;
+}
+
+.badge-interview {
+    background: #ede9fe;
+
+    color: #6d28d9;
+}
+
+.badge-accepted {
+    background: #dcfce7;
+
+    color: #166534;
+}
+
+.badge-rejected {
+    background: #fee2e2;
+
+    color: #991b1b;
+}
