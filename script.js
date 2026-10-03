@@ -8,7 +8,6 @@
 ========================================================= */
 
 const defaultJobs = [
-
     {
         id: 1,
         title: "Frontend Developer",
@@ -17,17 +16,11 @@ const defaultJobs = [
         category: "IT",
         type: "Full Time",
         salary: "₱35,000 - ₱50,000",
-        skills: [
-            "HTML",
-            "CSS",
-            "JavaScript"
-        ],
+        skills: ["HTML", "CSS", "JavaScript"],
         description:
             "Develop responsive and user-friendly websites and web applications.",
         postedBy: "system"
     },
-
-
     {
         id: 2,
         title: "Backend Developer",
@@ -36,17 +29,11 @@ const defaultJobs = [
         category: "IT",
         type: "Full Time",
         salary: "₱40,000 - ₱60,000",
-        skills: [
-            "PHP",
-            "MySQL",
-            "API"
-        ],
+        skills: ["PHP", "MySQL", "API"],
         description:
             "Build APIs, databases, and backend services for business applications.",
         postedBy: "system"
     },
-
-
     {
         id: 3,
         title: "UI/UX Designer",
@@ -55,17 +42,11 @@ const defaultJobs = [
         category: "Design",
         type: "Full Time",
         salary: "₱30,000 - ₱45,000",
-        skills: [
-            "Figma",
-            "UI Design",
-            "UX"
-        ],
+        skills: ["Figma", "UI Design", "UX"],
         description:
             "Create attractive and user-friendly digital interfaces.",
         postedBy: "system"
     },
-
-
     {
         id: 4,
         title: "IT Support Specialist",
@@ -74,17 +55,11 @@ const defaultJobs = [
         category: "IT",
         type: "Full Time",
         salary: "₱25,000 - ₱35,000",
-        skills: [
-            "Networking",
-            "Windows",
-            "Linux"
-        ],
+        skills: ["Networking", "Windows", "Linux"],
         description:
             "Provide technical support and troubleshoot hardware and software problems.",
         postedBy: "system"
     },
-
-
     {
         id: 5,
         title: "Digital Marketing Specialist",
@@ -93,17 +68,11 @@ const defaultJobs = [
         category: "Marketing",
         type: "Remote",
         salary: "₱30,000 - ₱45,000",
-        skills: [
-            "SEO",
-            "Social Media",
-            "Analytics"
-        ],
+        skills: ["SEO", "Social Media", "Analytics"],
         description:
             "Develop digital marketing campaigns and manage social media platforms.",
         postedBy: "system"
     },
-
-
     {
         id: 6,
         title: "Data Analyst",
@@ -112,16 +81,11 @@ const defaultJobs = [
         category: "Finance",
         type: "Full Time",
         salary: "₱38,000 - ₱55,000",
-        skills: [
-            "Excel",
-            "SQL",
-            "Power BI"
-        ],
+        skills: ["Excel", "SQL", "Power BI"],
         description:
             "Analyze data and create reports and dashboards for business decisions.",
         postedBy: "system"
     }
-
 ];
 
 
@@ -129,35 +93,15 @@ const defaultJobs = [
    APPLICATION STATE
 ========================================================= */
 
-let jobs =
-    JSON.parse(
-        localStorage.getItem("jobs")
-    ) || defaultJobs;
+let jobs = JSON.parse(localStorage.getItem("jobs")) || defaultJobs;
 
+let users = JSON.parse(localStorage.getItem("users")) || [];
 
-let users =
-    JSON.parse(
-        localStorage.getItem("users")
-    ) || [];
+let applications = JSON.parse(localStorage.getItem("applications")) || [];
 
+let savedJobs = JSON.parse(localStorage.getItem("savedJobs")) || [];
 
-let applications =
-    JSON.parse(
-        localStorage.getItem("applications")
-    ) || [];
-
-
-let savedJobs =
-    JSON.parse(
-        localStorage.getItem("savedJobs")
-    ) || [];
-
-
-let currentUser =
-    JSON.parse(
-        localStorage.getItem("currentUser")
-    ) || null;
-
+let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
 
 let selectedJob = null;
 
@@ -167,26 +111,10 @@ let selectedJob = null;
 ========================================================= */
 
 function saveData() {
-
-    localStorage.setItem(
-        "jobs",
-        JSON.stringify(jobs)
-    );
-
-    localStorage.setItem(
-        "users",
-        JSON.stringify(users)
-    );
-
-    localStorage.setItem(
-        "applications",
-        JSON.stringify(applications)
-    );
-
-    localStorage.setItem(
-        "savedJobs",
-        JSON.stringify(savedJobs)
-    );
+    localStorage.setItem("jobs", JSON.stringify(jobs));
+    localStorage.setItem("users", JSON.stringify(users));
+    localStorage.setItem("applications", JSON.stringify(applications));
+    localStorage.setItem("savedJobs", JSON.stringify(savedJobs));
 }
 
 
@@ -205,96 +133,49 @@ function showPage(page) {
         "dashboardPage"
     ];
 
-
     pages.forEach(id => {
-
-        const element =
-            document.getElementById(id);
-
-        if (element) {
-            element.classList.add("hidden");
-        }
-
+        const element = document.getElementById(id);
+        if (element) element.classList.add("hidden");
     });
 
-
     if (page === "home") {
-
-        document
-            .getElementById("homePage")
-            .classList.remove("hidden");
-
+        document.getElementById("homePage").classList.remove("hidden");
         renderFeaturedJobs();
     }
 
-
     if (page === "jobs") {
-
-        document
-            .getElementById("jobsPage")
-            .classList.remove("hidden");
-
+        document.getElementById("jobsPage").classList.remove("hidden");
         filterJobs();
     }
 
-
     if (page === "about") {
-
-        document
-            .getElementById("aboutPage")
-            .classList.remove("hidden");
+        document.getElementById("aboutPage").classList.remove("hidden");
     }
-
 
     if (page === "login") {
-
-        document
-            .getElementById("loginPage")
-            .classList.remove("hidden");
+        document.getElementById("loginPage").classList.remove("hidden");
     }
-
 
     if (page === "register") {
-
-        document
-            .getElementById("registerPage")
-            .classList.remove("hidden");
+        document.getElementById("registerPage").classList.remove("hidden");
     }
-
 
     if (page === "dashboard") {
 
         if (!currentUser) {
-
-            showToast(
-                "Please login first."
-            );
-
+            showToast("Please login first.");
             showPage("login");
-
             return;
         }
 
-
-        document
-            .getElementById("dashboardPage")
-            .classList.remove("hidden");
-
+        document.getElementById("dashboardPage").classList.remove("hidden");
         loadDashboard();
     }
 
-
     const navLinks = document.getElementById("navLinks");
+    if (navLinks) navLinks.classList.remove("show");
 
-    if (navLinks) {
-        navLinks.classList.remove("show");
-    }
-
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 
@@ -303,12 +184,8 @@ function showPage(page) {
 ========================================================= */
 
 function toggleMenu() {
-
     const navLinks = document.getElementById("navLinks");
-
-    if (navLinks) {
-        navLinks.classList.toggle("show");
-    }
+    if (navLinks) navLinks.classList.toggle("show");
 }
 
 
@@ -320,98 +197,46 @@ function register(event) {
 
     event.preventDefault();
 
+    const name = document.getElementById("registerName").value.trim();
 
-    const name =
-        document
-            .getElementById("registerName")
-            .value
-            .trim();
+    const email = document
+        .getElementById("registerEmail")
+        .value.trim()
+        .toLowerCase();
 
+    const password = document.getElementById("registerPassword").value;
 
-    const email =
-        document
-            .getElementById("registerEmail")
-            .value
-            .trim()
-            .toLowerCase();
+    const role = document.getElementById("registerRole").value;
 
-
-    const password =
-        document
-            .getElementById("registerPassword")
-            .value;
-
-
-    const role =
-        document
-            .getElementById("registerRole")
-            .value;
-
-
-    const exists =
-        users.some(
-            user =>
-                user.email === email
-        );
-
+    const exists = users.some(user => user.email === email);
 
     if (exists) {
-
-        showToast(
-            "This email is already registered."
-        );
-
+        showToast("This email is already registered.");
         return;
     }
 
-
     const newUser = {
-
         id: Date.now(),
-
         name,
-
         email,
-
         password,
-
         role,
-
         phone: "",
-
         skills: "",
-
         education: "",
-
         experience: ""
-
     };
 
-
     users.push(newUser);
-
     saveData();
 
+    document.getElementById("registerName").value = "";
+    document.getElementById("registerEmail").value = "";
+    document.getElementById("registerPassword").value = "";
 
-    document
-        .getElementById("registerName")
-        .value = "";
+    updateHomeStats();
 
-
-    document
-        .getElementById("registerEmail")
-        .value = "";
-
-
-    document
-        .getElementById("registerPassword")
-        .value = "";
-
-
-    showToast(
-        "Account created successfully!"
-    );
-
+    showToast("Account created successfully!");
 
     showPage("login");
 }
@@ -425,92 +250,43 @@ function login(event) {
 
     event.preventDefault();
 
+    const email = document
+        .getElementById("loginEmail")
+        .value.trim()
+        .toLowerCase();
 
-    const email =
-        document
-            .getElementById("loginEmail")
-            .value
-            .trim()
-            .toLowerCase();
+    const password = document.getElementById("loginPassword").value;
 
+    let user = users.find(
+        user => user.email === email && user.password === password
+    );
 
-    const password =
-        document
-            .getElementById("loginPassword")
-            .value;
+    /* DEMO ADMIN ACCOUNT */
 
-
-    let user =
-        users.find(
-            user =>
-                user.email === email &&
-                user.password === password
-        );
-
-
-    /*
-       DEMO ADMIN ACCOUNT
-    */
-
-    if (
-        email ===
-        "admin@workzone.com" &&
-        password === "admin123"
-    ) {
-
+    if (email === "admin@workzone.com" && password === "admin123") {
         user = {
-
             id: "admin",
-
             name: "Administrator",
-
-            email:
-
-                "admin@workzone.com",
-
+            email: "admin@workzone.com",
             role: "admin"
-
         };
-
     }
 
-
     if (!user) {
-
-        showToast(
-            "Invalid email or password."
-        );
-
+        showToast("Invalid email or password.");
         return;
     }
 
-
     currentUser = user;
 
-
-    localStorage.setItem(
-        "currentUser",
-        JSON.stringify(currentUser)
-    );
-
+    localStorage.setItem("currentUser", JSON.stringify(currentUser));
 
     updateNavigation();
 
+    document.getElementById("loginEmail").value = "";
+    document.getElementById("loginPassword").value = "";
 
-    document
-        .getElementById("loginEmail")
-        .value = "";
-
-
-    document
-        .getElementById("loginPassword")
-        .value = "";
-
-
-    showToast(
-        "Login successful!"
-    );
-
+    showToast("Login successful!");
 
     showPage("dashboard");
 }
@@ -524,19 +300,11 @@ function logout() {
 
     currentUser = null;
 
-
-    localStorage.removeItem(
-        "currentUser"
-    );
-
+    localStorage.removeItem("currentUser");
 
     updateNavigation();
 
-
-    showToast(
-        "You have been logged out."
-    );
-
+    showToast("You have been logged out.");
 
     showPage("home");
 }
@@ -565,90 +333,42 @@ function createJobCard(job) {
 
     let isSaved = false;
 
-
     if (currentUser) {
-
-        isSaved =
-            savedJobs.some(
-                item =>
-                    item.userId ===
-                    currentUser.id &&
-                    item.jobId ===
-                    job.id
-            );
-
+        isSaved = savedJobs.some(
+            item =>
+                item.userId === currentUser.id &&
+                item.jobId === job.id
+        );
     }
-
 
     return `
 
         <div class="job-card">
 
-            <h3>
-                ${escapeHTML(job.title)}
-            </h3>
+            <h3>${escapeHTML(job.title)}</h3>
 
+            <p class="company">${escapeHTML(job.company)}</p>
 
-            <p class="company">
-                ${escapeHTML(job.company)}
-            </p>
+            <p class="meta">📍 ${escapeHTML(job.location)}</p>
 
+            <p class="meta">💰 ${escapeHTML(job.salary)}</p>
 
-            <p class="meta">
-                📍
-                ${escapeHTML(job.location)}
-            </p>
-
-
-            <p class="meta">
-                💰
-                ${escapeHTML(job.salary)}
-            </p>
-
-
-            <p class="meta">
-                💼
-                ${escapeHTML(job.type)}
-            </p>
-
+            <p class="meta">💼 ${escapeHTML(job.type)}</p>
 
             <div class="tags">
-
                 ${job.skills
-            .map(
-                skill =>
-                    `
-                                <span class="tag">
-                                    ${escapeHTML(skill)}
-                                </span>
-                                `
-            )
-            .join("")
-        }
-
+            .map(skill => `<span class="tag">${escapeHTML(skill)}</span>`)
+            .join("")}
             </div>
-
 
             <div class="job-actions">
 
-                <button
-                    class="btn btn-primary"
-                    onclick="openJob(${job.id})">
-
+                <button class="btn btn-primary" onclick="openJob(${job.id})">
                     View Details
-
                 </button>
 
-
-                <button
-                    class="btn btn-secondary"
-                    onclick="toggleSaved(${job.id})">
-
-                    ${isSaved
-            ? "★ Saved"
-            : "☆ Save"
-        }
-
+                <button class="btn btn-secondary" onclick="toggleSaved(${job.id})">
+                    ${isSaved ? "★ Saved" : "☆ Save"}
                 </button>
 
             </div>
@@ -665,36 +385,21 @@ function createJobCard(job) {
 
 function renderFeaturedJobs() {
 
-    const container =
-        document.getElementById(
-            "featuredJobs"
-        );
-
+    const container = document.getElementById("featuredJobs");
 
     if (!container) return;
 
-
-    const featured =
-        jobs.slice(0, 6);
-
+    const featured = jobs.slice(0, 6);
 
     if (featured.length === 0) {
-
         container.innerHTML = `
-            <div class="empty">
-                No jobs available.
-            </div>
+            <div class="empty">No jobs available.</div>
         `;
-
+        updateHomeStats();
         return;
     }
 
-
-    container.innerHTML =
-        featured
-            .map(createJobCard)
-            .join("");
-
+    container.innerHTML = featured.map(createJobCard).join("");
 
     updateHomeStats();
 }
@@ -706,45 +411,21 @@ function renderFeaturedJobs() {
 
 function renderAllJobs(jobList) {
 
-    const container =
-        document.getElementById(
-            "allJobs"
-        );
-
+    const container = document.getElementById("allJobs");
 
     if (!container) return;
 
-
-    if (
-        !jobList ||
-        jobList.length === 0
-    ) {
-
+    if (!jobList || jobList.length === 0) {
         container.innerHTML = `
-
             <div class="empty">
-
-                <h3>
-                    No jobs found
-                </h3>
-
-                <p>
-                    Try changing your search
-                    or filters.
-                </p>
-
+                <h3>No jobs found</h3>
+                <p>Try changing your search or filters.</p>
             </div>
-
         `;
-
         return;
     }
 
-
-    container.innerHTML =
-        jobList
-            .map(createJobCard)
-            .join("");
+    container.innerHTML = jobList.map(createJobCard).join("");
 }
 
 
@@ -754,50 +435,13 @@ function renderAllJobs(jobList) {
 
 function searchFromHome() {
 
-    const keyword =
-        document
-            .getElementById(
-                "homeKeyword"
-            )
-            .value;
+    const keyword = document.getElementById("homeKeyword").value;
+    const location = document.getElementById("homeLocation").value;
+    const category = document.getElementById("homeCategory").value;
 
-
-    const location =
-        document
-            .getElementById(
-                "homeLocation"
-            )
-            .value;
-
-
-    const category =
-        document
-            .getElementById(
-                "homeCategory"
-            )
-            .value;
-
-
-    document
-        .getElementById(
-            "filterKeyword"
-        )
-        .value = keyword;
-
-
-    document
-        .getElementById(
-            "filterLocation"
-        )
-        .value = location;
-
-
-    document
-        .getElementById(
-            "filterCategory"
-        )
-        .value = category;
-
+    document.getElementById("filterKeyword").value = keyword;
+    document.getElementById("filterLocation").value = location;
+    document.getElementById("filterCategory").value = category;
 
     showPage("jobs");
 }
@@ -809,91 +453,47 @@ function searchFromHome() {
 
 function filterJobs() {
 
-    const keyword =
-        document
-            .getElementById(
-                "filterKeyword"
-            )
-            .value
-            .trim()
-            .toLowerCase();
+    const keyword = document
+        .getElementById("filterKeyword")
+        .value.trim()
+        .toLowerCase();
 
+    const location = document
+        .getElementById("filterLocation")
+        .value.trim()
+        .toLowerCase();
 
-    const location =
-        document
-            .getElementById(
-                "filterLocation"
-            )
-            .value
-            .trim()
-            .toLowerCase();
+    const category = document.getElementById("filterCategory").value;
 
+    const type = document.getElementById("filterType").value;
 
-    const category =
-        document
-            .getElementById(
-                "filterCategory"
-            )
-            .value;
+    const results = jobs.filter(job => {
 
+        const searchable = `
+            ${job.title}
+            ${job.company}
+            ${job.location}
+            ${job.category}
+            ${job.skills.join(" ")}
+        `.toLowerCase();
 
-    const type =
-        document
-            .getElementById(
-                "filterType"
-            )
-            .value;
+        const matchesKeyword = searchable.includes(keyword);
 
+        const matchesLocation = job.location
+            .toLowerCase()
+            .includes(location);
 
-    const results =
-        jobs.filter(job => {
+        const matchesCategory = !category || job.category === category;
 
-            const searchable = `
+        const matchesType = !type || job.type === type;
 
-                ${job.title}
-
-                ${job.company}
-
-                ${job.location}
-
-                ${job.category}
-
-                ${job.skills.join(" ")}
-
-            `.toLowerCase();
-
-
-            const matchesKeyword =
-                searchable.includes(
-                    keyword
-                );
-
-
-            const matchesLocation =
-                job.location
-                    .toLowerCase()
-                    .includes(location);
-
-
-            const matchesCategory =
-                !category ||
-                job.category === category;
-
-
-            const matchesType =
-                !type ||
-                job.type === type;
-
-
-            return (
-                matchesKeyword &&
-                matchesLocation &&
-                matchesCategory &&
-                matchesType
-            );
-
-        });
-
+        return (
+            matchesKeyword &&
+            matchesLocation &&
+            matchesCategory &&
+            matchesType
+        );
+    });
 
     renderAllJobs(results);
 }
@@ -905,33 +505,10 @@ function filterJobs() {
 
 function clearFilters() {
 
-    document
-        .getElementById(
-            "filterKeyword"
-        )
-        .value = "";
-
-
-    document
-        .getElementById(
-            "filterLocation"
-        )
-        .value = "";
-
-
-    document
-        .getElementById(
-            "filterCategory"
-        )
-        .value = "";
-
-
-    document
-        .getElementById(
-            "filterType"
-        )
-        .value = "";
-
+    document.getElementById("filterKeyword").value = "";
+    document.getElementById("filterLocation").value = "";
+    document.getElementById("filterCategory").value = "";
+    document.getElementById("filterType").value = "";
 
     renderAllJobs(jobs);
 }
@@ -943,91 +520,32 @@ function clearFilters() {
 
 function openJob(id) {
 
-    selectedJob =
-        jobs.find(
-            job => job.id === id
-        );
-
+    selectedJob = jobs.find(job => job.id === id);
 
     if (!selectedJob) return;
 
+    document.getElementById("modalTitle").textContent = selectedJob.title;
 
-    document
-        .getElementById(
-            "modalTitle"
-        )
-        .textContent =
-        selectedJob.title;
+    document.getElementById("modalCompany").textContent =
+        "🏢 " + selectedJob.company;
 
+    document.getElementById("modalLocation").textContent =
+        "📍 " + selectedJob.location;
 
-    document
-        .getElementById(
-            "modalCompany"
-        )
-        .textContent =
-        "🏢 " +
-        selectedJob.company;
+    document.getElementById("modalSalary").textContent =
+        "💰 " + selectedJob.salary;
 
+    document.getElementById("modalType").textContent =
+        "💼 " + selectedJob.type;
 
-    document
-        .getElementById(
-            "modalLocation"
-        )
-        .textContent =
-        "📍 " +
-        selectedJob.location;
-
-
-    document
-        .getElementById(
-            "modalSalary"
-        )
-        .textContent =
-        "💰 " +
-        selectedJob.salary;
-
-
-    document
-        .getElementById(
-            "modalType"
-        )
-        .textContent =
-        "💼 " +
-        selectedJob.type;
-
-
-    document
-        .getElementById(
-            "modalDescription"
-        )
-        .textContent =
+    document.getElementById("modalDescription").textContent =
         selectedJob.description;
 
+    document.getElementById("modalSkills").innerHTML = selectedJob.skills
+        .map(skill => `<span class="tag">${escapeHTML(skill)}</span>`)
+        .join("");
 
-    document
-        .getElementById(
-            "modalSkills"
-        )
-        .innerHTML =
-        selectedJob.skills
-            .map(
-                skill =>
-                    `
-                        <span class="tag">
-                            ${escapeHTML(skill)}
-                        </span>
-                        `
-            )
-            .join("");
-
-
-    document
-        .getElementById(
-            "jobModal"
-        )
-        .classList.remove(
-            "hidden"
-        );
+    document.getElementById("jobModal").classList.remove("hidden");
 }
 
 
@@ -1036,14 +554,7 @@ function openJob(id) {
 ========================================================= */
 
 function closeModal() {
-
-    document
-        .getElementById(
-            "jobModal"
-        )
-        .classList.add(
-            "hidden"
-        );
+    document.getElementById("jobModal").classList.add("hidden");
 }
 
 
@@ -1054,90 +565,49 @@ function closeModal() {
 function applyFromModal() {
 
     if (!currentUser) {
-
         closeModal();
-
-        showToast(
-            "Please login to apply."
-        );
-
+        showToast("Please login to apply.");
         showPage("login");
-
         return;
     }
 
-
-    if (
-        currentUser.role !==
-        "seeker"
-    ) {
-
-        showToast(
-            "Only job seekers can apply."
-        );
-
+    if (currentUser.role !== "seeker") {
+        showToast("Only job seekers can apply.");
         return;
     }
-
 
     if (!selectedJob) return;
 
-
-    const alreadyApplied =
-        applications.some(
-            application =>
-                application.jobId ===
-                selectedJob.id &&
-                application.userId ===
-                currentUser.id
-        );
-
+    const alreadyApplied = applications.some(
+        application =>
+            application.jobId === selectedJob.id &&
+            application.userId === currentUser.id
+    );
 
     if (alreadyApplied) {
-
-        showToast(
-            "You already applied for this job."
-        );
-
+        showToast("You already applied for this job.");
         return;
     }
 
-
     applications.push({
-
         id: Date.now(),
-
-        jobId:
-            selectedJob.id,
-
-        userId:
-            currentUser.id,
-
-        status:
-            "Pending",
-
-        appliedAt:
-            new Date()
-                .toLocaleDateString()
-
+        jobId: selectedJob.id,
+        userId: currentUser.id,
+        status: "Pending",
+        appliedAt: new Date().toLocaleDateString()
     });
-
 
     saveData();
 
-
     closeModal();
 
-
-    showToast(
-        "Application submitted!"
-    );
-
+    showToast("Application submitted! Waiting for approval.");
 
     updateDashboardStats();
 
-
     renderApplications();
+
+    updateManageBadge();
 }
 
 
@@ -1148,67 +618,32 @@ function applyFromModal() {
 function toggleSaved(id) {
 
     if (!currentUser) {
-
-        showToast(
-            "Please login to save jobs."
-        );
-
+        showToast("Please login to save jobs.");
         showPage("login");
-
         return;
     }
 
-
-    const index =
-        savedJobs.findIndex(
-            item =>
-                item.userId ===
-                currentUser.id &&
-                item.jobId === id
-        );
-
+    const index = savedJobs.findIndex(
+        item => item.userId === currentUser.id && item.jobId === id
+    );
 
     if (index !== -1) {
-
-        savedJobs.splice(
-            index,
-            1
-        );
-
-
-        showToast(
-            "Job removed from saved jobs."
-        );
-
+        savedJobs.splice(index, 1);
+        showToast("Job removed from saved jobs.");
     } else {
-
         savedJobs.push({
-
             id: Date.now(),
-
-            userId:
-                currentUser.id,
-
+            userId: currentUser.id,
             jobId: id
-
         });
-
-
-        showToast(
-            "Job saved!"
-        );
+        showToast("Job saved!");
     }
-
 
     saveData();
 
-
     renderFeaturedJobs();
-
     renderAllJobs(jobs);
-
     renderSavedJobs();
-
     updateDashboardStats();
 }
 
@@ -1218,12 +653,8 @@ function toggleSaved(id) {
 ========================================================= */
 
 function saveCurrentJob() {
-
     if (!selectedJob) return;
-
-    toggleSaved(
-        selectedJob.id
-    );
+    toggleSaved(selectedJob.id);
 }
 
 
@@ -1233,76 +664,34 @@ function saveCurrentJob() {
 
 function renderSavedJobs() {
 
-    const container =
-        document.getElementById(
-            "savedJobList"
-        );
-
+    const container = document.getElementById("savedJobList");
 
     if (!container) return;
 
-
     if (!currentUser) {
-
         container.innerHTML = `
-            <div class="empty">
-                Please login first.
-            </div>
+            <div class="empty">Please login first.</div>
         `;
-
         return;
     }
 
+    const savedIds = savedJobs
+        .filter(item => item.userId === currentUser.id)
+        .map(item => item.jobId);
 
-    const savedIds =
-        savedJobs
-            .filter(
-                item =>
-                    item.userId ===
-                    currentUser.id
-            )
-            .map(
-                item =>
-                    item.jobId
-            );
-
-
-    const saved =
-        jobs.filter(
-            job =>
-                savedIds.includes(
-                    job.id
-                )
-        );
-
+    const saved = jobs.filter(job => savedIds.includes(job.id));
 
     if (saved.length === 0) {
-
         container.innerHTML = `
-
             <div class="empty">
-
-                <h3>
-                    No Saved Jobs
-                </h3>
-
-                <p>
-                    Save jobs you are
-                    interested in.
-                </p>
-
+                <h3>No Saved Jobs</h3>
+                <p>Save jobs you are interested in.</p>
             </div>
-
         `;
-
         return;
     }
 
-
-    container.innerHTML =
-        saved
-            .map(createJobCard)
-            .join("");
+    container.innerHTML = saved.map(createJobCard).join("");
 }
 
 
@@ -1312,71 +701,18 @@ function renderSavedJobs() {
 
 function loadProfile() {
 
-    if (
-        !currentUser ||
-        currentUser.role === "admin"
-    ) {
-        return;
-    }
+    if (!currentUser || currentUser.role === "admin") return;
 
-
-    const user =
-        users.find(
-            user =>
-                user.id ===
-                currentUser.id
-        );
-
+    const user = users.find(user => user.id === currentUser.id);
 
     if (!user) return;
 
-
-    document
-        .getElementById(
-            "profileName"
-        )
-        .value =
-        user.name || "";
-
-
-    document
-        .getElementById(
-            "profileEmail"
-        )
-        .value =
-        user.email || "";
-
-
-    document
-        .getElementById(
-            "profilePhone"
-        )
-        .value =
-        user.phone || "";
-
-
-    document
-        .getElementById(
-            "profileSkills"
-        )
-        .value =
-        user.skills || "";
-
-
-    document
-        .getElementById(
-            "profileEducation"
-        )
-        .value =
-        user.education || "";
-
-
-    document
-        .getElementById(
-            "profileExperience"
-        )
-        .value =
-        user.experience || "";
+    document.getElementById("profileName").value = user.name || "";
+    document.getElementById("profileEmail").value = user.email || "";
+    document.getElementById("profilePhone").value = user.phone || "";
+    document.getElementById("profileSkills").value = user.skills || "";
+    document.getElementById("profileEducation").value = user.education || "";
+    document.getElementById("profileExperience").value = user.experience || "";
 }
 
 
@@ -1388,151 +724,54 @@ function saveProfile(event) {
 
     event.preventDefault();
 
-
     if (!currentUser) return;
 
-
-    const user =
-        users.find(
-            user =>
-                user.id ===
-                currentUser.id
-        );
-
+    const user = users.find(user => user.id === currentUser.id);
 
     if (!user) return;
 
+    user.name = document.getElementById("profileName").value.trim();
+    user.email = document.getElementById("profileEmail").value.trim();
+    user.phone = document.getElementById("profilePhone").value.trim();
+    user.skills = document.getElementById("profileSkills").value.trim();
+    user.education = document.getElementById("profileEducation").value.trim();
+    user.experience = document.getElementById("profileExperience").value.trim();
 
-    user.name =
-        document
-            .getElementById(
-                "profileName"
-            )
-            .value
-            .trim();
+    currentUser = user;
 
-
-    user.email =
-        document
-            .getElementById(
-                "profileEmail"
-            )
-            .value
-            .trim();
-
-
-    user.phone =
-        document
-            .getElementById(
-                "profilePhone"
-            )
-            .value
-            .trim();
-
-
-    user.skills =
-        document
-            .getElementById(
-                "profileSkills"
-            )
-            .value
-            .trim();
-
-
-    user.education =
-        document
-            .getElementById(
-                "profileEducation"
-            )
-            .value
-            .trim();
-
-
-    user.experience =
-        document
-            .getElementById(
-                "profileExperience"
-            )
-            .value
-            .trim();
-
-
-    currentUser =
-        user;
-
-
-    localStorage.setItem(
-        "currentUser",
-        JSON.stringify(
-            currentUser
-        )
-    );
-
+    localStorage.setItem("currentUser", JSON.stringify(currentUser));
 
     saveData();
 
-
     updateDashboardUser();
 
-
-    showToast(
-        "Profile updated successfully!"
-    );
+    showToast("Profile updated successfully!");
 }
 
 
 /* =========================================================
-   APPLICATIONS
+   MY APPLICATIONS (JOB SEEKER VIEW)
 ========================================================= */
 
 function renderApplications() {
 
-    const container =
-        document.getElementById(
-            "applicationTable"
-        );
+    const container = document.getElementById("applicationTable");
 
+    if (!container || !currentUser) return;
 
-    if (
-        !container ||
-        !currentUser
-    ) {
-        return;
-    }
+    const myApplications = applications.filter(
+        application => application.userId === currentUser.id
+    );
 
-
-    const myApplications =
-        applications.filter(
-            application =>
-                application.userId ===
-                currentUser.id
-        );
-
-
-    if (
-        myApplications.length === 0
-    ) {
-
+    if (myApplications.length === 0) {
         container.innerHTML = `
-
             <div class="empty">
-
-                <h3>
-                    No Applications
-                </h3>
-
-                <p>
-                    Start applying for jobs
-                    to see them here.
-                </p>
-
+                <h3>No Applications</h3>
+                <p>Start applying for jobs to see them here.</p>
             </div>
-
         `;
-
         return;
     }
-
 
     container.innerHTML = `
 
@@ -1541,96 +780,43 @@ function renderApplications() {
             <table>
 
                 <thead>
-
                     <tr>
-
-                        <th>
-                            Job
-                        </th>
-
-                        <th>
-                            Company
-                        </th>
-
-                        <th>
-                            Status
-                        </th>
-
-                        <th>
-                            Applied
-                        </th>
-
+                        <th>Job</th>
+                        <th>Company</th>
+                        <th>Status</th>
+                        <th>Applied</th>
                     </tr>
-
                 </thead>
-
 
                 <tbody>
 
                     ${myApplications
-            .map(
-                application => {
+            .map(application => {
 
-                    const job =
-                        jobs.find(
-                            item =>
-                                item.id ===
-                                application.jobId
-                        );
+                const job = jobs.find(
+                    item => item.id === application.jobId
+                );
 
+                if (!job) return "";
 
-                    if (!job) {
-                        return "";
-                    }
+                const statusClass = application.status
+                    .toLowerCase()
+                    .replace(" ", "-");
 
-
-                    const statusClass =
-                        application.status
-                            .toLowerCase()
-                            .replace(
-                                " ",
-                                "-"
-                            );
-
-
-                    return `
-
-                                        <tr>
-
-                                            <td>
-                                                ${escapeHTML(job.title)}
-                                            </td>
-
-                                            <td>
-                                                ${escapeHTML(job.company)}
-                                            </td>
-
-                                            <td>
-
-                                                <span
-                                                    class="
-                                                        badge
-                                                        badge-${statusClass}
-                                                    ">
-
-                                                    ${escapeHTML(application.status)}
-
-                                                </span>
-
-                                            </td>
-
-                                            <td>
-                                                ${escapeHTML(application.appliedAt)}
-                                            </td>
-
-                                        </tr>
-
-                                    `;
-
-                }
-            )
-            .join("")
-        }
+                return `
+                                <tr>
+                                    <td>${escapeHTML(job.title)}</td>
+                                    <td>${escapeHTML(job.company)}</td>
+                                    <td>
+                                        <span class="badge badge-${statusClass}">
+                                            ${escapeHTML(application.status)}
+                                        </span>
+                                    </td>
+                                    <td>${escapeHTML(application.appliedAt)}</td>
+                                </tr>
+                            `;
+            })
+            .join("")}
 
                 </tbody>
 
@@ -1643,6 +829,190 @@ function renderApplications() {
 
 
 /* =========================================================
+   MANAGE APPLICATIONS (ADMIN / EMPLOYER)
+
+   - Admin: nakikita ang LAHAT ng applications
+   - Employer: applications lang sa mga job na siya ang nag-post
+========================================================= */
+
+function canManageApplications() {
+    return (
+        !!currentUser &&
+        (currentUser.role === "admin" || currentUser.role === "employer")
+    );
+}
+
+
+function getManageableApplications() {
+
+    if (!canManageApplications()) return [];
+
+    if (currentUser.role === "admin") return applications;
+
+    return applications.filter(application => {
+        const job = jobs.find(item => item.id === application.jobId);
+        return job && job.postedBy === currentUser.id;
+    });
+}
+
+
+function showManageApplications(clickedButton) {
+    dashboardTab("manage", clickedButton);
+}
+
+
+function updateManageBadge() {
+
+    const menu = document.getElementById("adminMenu");
+
+    if (!menu) return;
+
+    const pending = getManageableApplications().filter(
+        application => application.status === "Pending"
+    ).length;
+
+    menu.innerHTML =
+        "✅ Manage Applications" +
+        (pending > 0 ? ` (${pending})` : "");
+}
+
+
+function renderManageApplications() {
+
+    const container = document.getElementById("manageTable");
+
+    if (!container || !canManageApplications()) return;
+
+    const list = getManageableApplications();
+
+    if (list.length === 0) {
+        container.innerHTML = `
+            <div class="empty">
+                <h3>No Applications</h3>
+                <p>Applications from job seekers will appear here.</p>
+            </div>
+        `;
+        return;
+    }
+
+    /* Pending muna sa taas, tapos pinakabago */
+
+    const sorted = [...list].sort((a, b) => {
+        if (a.status === "Pending" && b.status !== "Pending") return -1;
+        if (a.status !== "Pending" && b.status === "Pending") return 1;
+        return b.id - a.id;
+    });
+
+    const rows = sorted
+        .map(application => {
+
+            const job = jobs.find(item => item.id === application.jobId);
+
+            const applicant = users.find(
+                user => user.id === application.userId
+            );
+
+            if (!job) return "";
+
+            const statusClass = application.status
+                .toLowerCase()
+                .replace(" ", "-");
+
+            return `
+                <tr>
+                    <td>
+                        <strong>${escapeHTML(applicant ? applicant.name : "Unknown")}</strong>
+                        <br>
+                        <small>${escapeHTML(applicant ? applicant.email : "")}</small>
+                        ${applicant && applicant.skills
+                    ? `<br><small>Skills: ${escapeHTML(applicant.skills)}</small>`
+                    : ""}
+                    </td>
+                    <td>${escapeHTML(job.title)}</td>
+                    <td>${escapeHTML(job.company)}</td>
+                    <td>
+                        <span class="badge badge-${statusClass}">
+                            ${escapeHTML(application.status)}
+                        </span>
+                    </td>
+                    <td>${escapeHTML(application.appliedAt)}</td>
+                    <td>
+                        <button class="btn btn-primary"
+                            ${application.status === "Approved" ? "disabled" : ""}
+                            onclick="updateApplicationStatus(${application.id}, 'Approved')">
+                            Approve
+                        </button>
+                        <button class="btn btn-danger"
+                            ${application.status === "Rejected" ? "disabled" : ""}
+                            onclick="updateApplicationStatus(${application.id}, 'Rejected')">
+                            Reject
+                        </button>
+                    </td>
+                </tr>
+            `;
+        })
+        .join("");
+
+    container.innerHTML = `
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Applicant</th>
+                        <th>Job</th>
+                        <th>Company</th>
+                        <th>Status</th>
+                        <th>Applied</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>${rows}</tbody>
+
+            </table>
+
+        </div>
+
+    `;
+}
+
+
+function updateApplicationStatus(id, status) {
+
+    if (!canManageApplications()) {
+        showToast("You are not allowed to do that.");
+        return;
+    }
+
+    /* Siguraduhing pwede niyang i-manage ang application na ito */
+
+    const allowed = getManageableApplications().find(
+        application => application.id === id
+    );
+
+    if (!allowed) {
+        showToast("You cannot manage this application.");
+        return;
+    }
+
+    allowed.status = status;
+    allowed.reviewedBy = currentUser.id;
+    allowed.reviewedAt = new Date().toLocaleDateString();
+
+    saveData();
+
+    renderManageApplications();
+
+    updateManageBadge();
+
+    showToast("Application " + status.toLowerCase() + ".");
+}
+
+
+/* =========================================================
    EMPLOYER POST JOB
 ========================================================= */
 
@@ -1650,138 +1020,46 @@ function postJob(event) {
 
     event.preventDefault();
 
-
     if (!currentUser) {
-
-        showToast(
-            "Please login first."
-        );
-
+        showToast("Please login first.");
         return;
     }
 
-
-    if (
-        currentUser.role !==
-        "employer" &&
-        currentUser.role !==
-        "admin"
-    ) {
-
-        showToast(
-            "Employer account required."
-        );
-
+    if (currentUser.role !== "employer" && currentUser.role !== "admin") {
+        showToast("Employer account required.");
         return;
     }
-
 
     const newJob = {
-
         id: Date.now(),
-
-        title:
-            document
-                .getElementById(
-                    "postTitle"
-                )
-                .value
-                .trim(),
-
-        company:
-            document
-                .getElementById(
-                    "postCompany"
-                )
-                .value
-                .trim(),
-
-        location:
-            document
-                .getElementById(
-                    "postLocation"
-                )
-                .value
-                .trim(),
-
-        category:
-            document
-                .getElementById(
-                    "postCategory"
-                )
-                .value,
-
-        type:
-            document
-                .getElementById(
-                    "postType"
-                )
-                .value,
-
-        salary:
-            document
-                .getElementById(
-                    "postSalary"
-                )
-                .value
-                .trim(),
-
-        skills:
-            document
-                .getElementById(
-                    "postSkills"
-                )
-                .value
-                .split(",")
-                .map(
-                    skill =>
-                        skill.trim()
-                )
-                .filter(Boolean),
-
-        description:
-            document
-                .getElementById(
-                    "postDescription"
-                )
-                .value
-                .trim(),
-
-        postedBy:
-            currentUser.id
-
+        title: document.getElementById("postTitle").value.trim(),
+        company: document.getElementById("postCompany").value.trim(),
+        location: document.getElementById("postLocation").value.trim(),
+        category: document.getElementById("postCategory").value,
+        type: document.getElementById("postType").value,
+        salary: document.getElementById("postSalary").value.trim(),
+        skills: document
+            .getElementById("postSkills")
+            .value.split(",")
+            .map(skill => skill.trim())
+            .filter(Boolean),
+        description: document.getElementById("postDescription").value.trim(),
+        postedBy: currentUser.id
     };
 
-
-    jobs.unshift(
-        newJob
-    );
-
+    jobs.unshift(newJob);
 
     saveData();
 
-
-    document
-        .querySelector(
-            "#tabEmployer form"
-        )
-        .reset();
-
+    document.querySelector("#tabEmployer form").reset();
 
     renderPostedJobs();
-
     renderFeaturedJobs();
-
     renderAllJobs(jobs);
-
     updateHomeStats();
-
     updateDashboardStats();
 
-
-    showToast(
-        "Job posted successfully!"
-    );
+    showToast("Job posted successfully!");
 }
 
 
@@ -1791,88 +1069,41 @@ function postJob(event) {
 
 function renderPostedJobs() {
 
-    const container =
-        document.getElementById(
-            "postedJobs"
-        );
+    const container = document.getElementById("postedJobs");
 
+    if (!container || !currentUser) return;
 
-    if (
-        !container ||
-        !currentUser
-    ) {
-        return;
-    }
+    const postedJobs = jobs.filter(job => job.postedBy === currentUser.id);
 
-
-    const postedJobs =
-        jobs.filter(
-            job =>
-                job.postedBy ===
-                currentUser.id
-        );
-
-
-    if (
-        postedJobs.length === 0
-    ) {
-
+    if (postedJobs.length === 0) {
         container.innerHTML = `
-
             <div class="empty">
-
-                <h3>
-                    No Jobs Posted
-                </h3>
-
-                <p>
-                    Create your first
-                    job posting.
-                </p>
-
+                <h3>No Jobs Posted</h3>
+                <p>Create your first job posting.</p>
             </div>
-
         `;
-
         return;
     }
 
+    container.innerHTML = postedJobs
+        .map(
+            job => `
+                <div class="job-card" style="margin-bottom:15px">
 
-    container.innerHTML =
-        postedJobs
-            .map(
-                job => `
+                    <h3>${escapeHTML(job.title)}</h3>
 
-                    <div
-                        class="job-card"
-                        style="margin-bottom:15px">
+                    <p class="company">${escapeHTML(job.company)}</p>
 
-                        <h3>
-                            ${escapeHTML(job.title)}
-                        </h3>
+                    <p class="meta">📍 ${escapeHTML(job.location)}</p>
 
-                        <p class="company">
-                            ${escapeHTML(job.company)}
-                        </p>
+                    <button class="btn btn-danger" onclick="deleteJob(${job.id})">
+                        Delete Job
+                    </button>
 
-                        <p class="meta">
-                            📍
-                            ${escapeHTML(job.location)}
-                        </p>
-
-                        <button
-                            class="btn btn-danger"
-                            onclick="deleteJob(${job.id})">
-
-                            Delete Job
-
-                        </button>
-
-                    </div>
-
-                `
-            )
-            .join("");
+                </div>
+            `
+        )
+        .join("");
 }
 
 
@@ -1882,59 +1113,33 @@ function renderPostedJobs() {
 
 function deleteJob(id) {
 
-    const confirmDelete =
-        confirm(
-            "Are you sure you want to delete this job?"
-        );
+    const confirmDelete = confirm(
+        "Are you sure you want to delete this job?"
+    );
 
+    if (!confirmDelete) return;
 
-    if (!confirmDelete) {
-        return;
-    }
+    jobs = jobs.filter(job => job.id !== id);
 
+    applications = applications.filter(
+        application => application.jobId !== id
+    );
 
-    jobs =
-        jobs.filter(
-            job =>
-                job.id !== id
-        );
-
-
-    applications =
-        applications.filter(
-            application =>
-                application.jobId !== id
-        );
-
-
-    savedJobs =
-        savedJobs.filter(
-            item =>
-                item.jobId !== id
-        );
-
+    savedJobs = savedJobs.filter(item => item.jobId !== id);
 
     saveData();
 
-
     renderPostedJobs();
-
     renderFeaturedJobs();
-
     renderAllJobs(jobs);
-
     renderApplications();
-
+    renderManageApplications();
     renderSavedJobs();
-
     updateHomeStats();
-
     updateDashboardStats();
+    updateManageBadge();
 
-
-    showToast(
-        "Job deleted successfully."
-    );
+    showToast("Job deleted successfully.");
 }
 
 
@@ -1942,85 +1147,33 @@ function deleteJob(id) {
    DASHBOARD
 ========================================================= */
 
-function dashboardTab(
-    tab,
-    clickedButton
-) {
+function dashboardTab(tab, clickedButton) {
 
-    document
-        .querySelectorAll(
-            ".dashboard-tab"
-        )
-        .forEach(element => {
+    document.querySelectorAll(".dashboard-tab").forEach(element => {
+        element.classList.add("hidden");
+    });
 
-            element.classList.add(
-                "hidden"
-            );
+    document.querySelectorAll(".sidebar-link").forEach(button => {
+        button.classList.remove("active");
+    });
 
-        });
+    if (clickedButton) clickedButton.classList.add("active");
 
+    const tabElement = document.getElementById(
+        "tab" + tab.charAt(0).toUpperCase() + tab.slice(1)
+    );
 
-    document
-        .querySelectorAll(
-            ".sidebar-link"
-        )
-        .forEach(button => {
+    if (tabElement) tabElement.classList.remove("hidden");
 
-            button.classList.remove(
-                "active"
-            );
+    if (tab === "profile") loadProfile();
 
-        });
+    if (tab === "applications") renderApplications();
 
+    if (tab === "saved") renderSavedJobs();
 
-    if (clickedButton) {
+    if (tab === "employer") renderPostedJobs();
 
-        clickedButton.classList.add(
-            "active"
-        );
-    }
-
-
-    const tabElement =
-        document.getElementById(
-            "tab" +
-            tab
-                .charAt(0)
-                .toUpperCase() +
-            tab.slice(1)
-        );
-
-
-    if (tabElement) {
-
-        tabElement.classList.remove(
-            "hidden"
-        );
-    }
-
-
-    if (tab === "profile") {
-
-        loadProfile();
-    }
-
-
-    if (tab === "applications") {
-
-        renderApplications();
-    }
-
-
-    if (tab === "saved") {
-
-        renderSavedJobs();
-    }
-
-
-    if (tab === "employer") {
-
-        renderPostedJobs();
-    }
+    if (tab === "manage") renderManageApplications();
 }
 
 
@@ -2030,9 +1183,7 @@ function dashboardTab(
 
 function loadDashboard() {
 
-    if (!currentUser) {
-        return;
-    }
+    if (!currentUser) return;
 
     updateDashboardUser();
 
@@ -2050,11 +1201,18 @@ function loadDashboard() {
 
     if (employerMenu) {
         const canPost =
-            currentUser.role === "employer" ||
-            currentUser.role === "admin";
+            currentUser.role === "employer" || currentUser.role === "admin";
 
         employerMenu.classList.toggle("hidden", !canPost);
     }
+
+    const adminMenu = document.getElementById("adminMenu");
+
+    if (adminMenu) {
+        adminMenu.classList.toggle("hidden", !canManageApplications());
+    }
+
+    updateManageBadge();
 }
 
 
@@ -2064,9 +1222,7 @@ function loadDashboard() {
 
 function updateDashboardUser() {
 
-    if (!currentUser) {
-        return;
-    }
+    if (!currentUser) return;
 
     const roleLabel =
         currentUser.role === "employer"
@@ -2087,24 +1243,23 @@ function updateDashboardUser() {
 
 function updateDashboardStats() {
 
-    if (!currentUser) {
-        return;
-    }
+    if (!currentUser) return;
 
-    const applicationCount =
-        applications.filter(
+    /* Seeker: sariling applications. Admin/Employer: natatanggap na applications */
+
+    const applicationCount = canManageApplications()
+        ? getManageableApplications().length
+        : applications.filter(
             application => application.userId === currentUser.id
         ).length;
 
-    const savedCount =
-        savedJobs.filter(
-            item => item.userId === currentUser.id
-        ).length;
+    const savedCount = savedJobs.filter(
+        item => item.userId === currentUser.id
+    ).length;
 
-    const postedCount =
-        jobs.filter(
-            job => job.postedBy === currentUser.id
-        ).length;
+    const postedCount = jobs.filter(
+        job => job.postedBy === currentUser.id
+    ).length;
 
     setText("dashApplications", applicationCount);
     setText("dashSaved", savedCount);
@@ -2124,11 +1279,9 @@ function setText(id, value) {
 
 function updateHomeStats() {
 
-    const companyCount =
-        new Set(jobs.map(job => job.company)).size;
+    const companyCount = new Set(jobs.map(job => job.company)).size;
 
-    const applicantCount =
-        users.filter(user => user.role === "seeker").length;
+    const applicantCount = users.filter(user => user.role === "seeker").length;
 
     setText("homeJobCount", jobs.length);
     setText("homeCompanyCount", companyCount);
@@ -2169,39 +1322,18 @@ function showToast(message) {
 
 function escapeHTML(value) {
 
-    return String(value)
-
-        .replaceAll(
-            "&",
-            "&amp;"
-        )
-
-        .replaceAll(
-            "<",
-            "&lt;"
-        )
-
-        .replaceAll(
-            ">",
-            "&gt;"
-        )
-
-        .replaceAll(
-            '"',
-            "&quot;"
-        )
-
-        .replaceAll(
-            "'",
-            "&#039;"
-        );
+    return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
 }
 
 
 /* =========================================================
    INITIALIZATION
 ========================================================= */
-
 
 function initialize() {
 
@@ -2213,13 +1345,9 @@ function initialize() {
 
     updateHomeStats();
 
-
     if (currentUser) {
-
         loadDashboard();
-
     }
-
 }
 
 

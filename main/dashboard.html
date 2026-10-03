@@ -67,6 +67,16 @@
 
             </button>
 
+
+            <!-- ADMIN ONLY -->
+
+            <button id="adminMenu" class="sidebar-link hidden" onclick="showManageApplications(this)">
+
+                ✅
+                Manage Applications
+
+            </button>
+
         </aside>
 
 
@@ -231,8 +241,8 @@
                                 Education
                             </label>
 
-                            <textarea class="form-control" id="profileEducation" rows="4" placeholder="Your education">
-                                </textarea>
+                            <textarea class="form-control" id="profileEducation" rows="4"
+                                placeholder="Your education"></textarea>
 
                         </div>
 
@@ -244,8 +254,7 @@
                             </label>
 
                             <textarea class="form-control" id="profileExperience" rows="4"
-                                placeholder="Your work experience">
-                                </textarea>
+                                placeholder="Your work experience"></textarea>
 
                         </div>
 
@@ -449,8 +458,7 @@
                                 Job Description
                             </label>
 
-                            <textarea class="form-control" id="postDescription" rows="5" required>
-                                </textarea>
+                            <textarea class="form-control" id="postDescription" rows="5" required></textarea>
 
                         </div>
 
@@ -471,6 +479,28 @@
                     </h2>
 
                     <div id="postedJobs">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- MANAGE APPLICATIONS (ADMIN) -->
+
+            <div id="tabManage" class="dashboard-tab hidden">
+
+                <div class="panel">
+
+                    <div class="panel-heading">
+
+                        <h2>
+                            Manage Applications
+                        </h2>
+
+                    </div>
+
+                    <div id="manageTable">
                     </div>
 
                 </div>
