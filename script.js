@@ -302,6 +302,8 @@ function logout() {
 
     localStorage.removeItem("currentUser");
 
+    clearProfileForm();
+
     updateNavigation();
 
     showToast("You have been logged out.");
@@ -699,9 +701,34 @@ function renderSavedJobs() {
    PROFILE
 ========================================================= */
 
+function clearProfileForm() {
+    [
+        "profileName",
+        "profileEmail",
+        "profilePhone",
+        "profileSkills",
+        "profileEducation",
+        "profileExperience"
+    ].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = "";
+    });
+}
+
+
 function loadProfile() {
 
-    if (!currentUser || currentUser.role === "admin") return;
+    if (!currentUser) return;
+
+    /* Linisin muna ang form para hindi maiwan ang data ng dating user */
+
+    clearProfileForm();
+
+    if (currentUser.role === "admin") {
+        document.getElementById("profileName").value = currentUser.name || "";
+        document.getElementById("profileEmail").value = currentUser.email || "";
+        return;
+    }
 
     const user = users.find(user => user.id === currentUser.id);
 
@@ -725,6 +752,11 @@ function saveProfile(event) {
     event.preventDefault();
 
     if (!currentUser) return;
+
+    if (currentUser.role === "admin") {
+        showToast("The admin profile cannot be edited.");
+        return;
+    }
 
     const user = users.find(user => user.id === currentUser.id);
 
@@ -785,6 +817,7 @@ function renderApplications() {
                         <th>Company</th>
                         <th>Status</th>
                         <th>Applied</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
 
@@ -813,6 +846,20 @@ function renderApplications() {
                                         </span>
                                     </td>
                                     <td>${escapeHTML(application.appliedAt)}</td>
+                                    <td>
+                                        ${application.status === "Approved"
+                        ? `
+                                                <button class="btn btn-primary"
+                                                    onclick="respondToOffer(${application.id}, 'Accepted')">
+                                                    Accept
+                                                </button>
+                                                <button class="btn btn-danger"
+                                                    onclick="respondToOffer(${application.id}, 'Declined')">
+                                                    Decline
+                                                </button>
+                                            `
+                        : "-"}
+                                    </td>
                                 </tr>
                             `;
             })
@@ -825,6 +872,48 @@ function renderApplications() {
         </div>
 
     `;
+}
+
+
+/* =========================================================
+   JOB SEEKER: ACCEPT / DECLINE APPROVED APPLICATION
+========================================================= */
+
+function respondToOffer(id, response) {
+
+    if (!currentUser || currentUser.role !== "seeker") {
+        showToast("Only job seekers can respond to an offer.");
+        return;
+    }
+
+    const application = applications.find(
+        item => item.id === id && item.userId === currentUser.id
+    );
+
+    if (!application) return;
+
+    if (application.status !== "Approved") {
+        showToast("This application is not waiting for your response.");
+        return;
+    }
+
+    if (response === "Declined") {
+        const ok = confirm("Are you sure you want to decline this offer?");
+        if (!ok) return;
+    }
+
+    application.status = response;
+    application.respondedAt = new Date().toLocaleDateString();
+
+    saveData();
+
+    renderApplications();
+
+    showToast(
+        response === "Accepted"
+            ? "You accepted the offer. Congratulations!"
+            : "You declined the offer."
+    );
 }
 
 
@@ -937,16 +1026,20 @@ function renderManageApplications() {
                     </td>
                     <td>${escapeHTML(application.appliedAt)}</td>
                     <td>
-                        <button class="btn btn-primary"
-                            ${application.status === "Approved" ? "disabled" : ""}
-                            onclick="updateApplicationStatus(${application.id}, 'Approved')">
-                            Approve
-                        </button>
-                        <button class="btn btn-danger"
-                            ${application.status === "Rejected" ? "disabled" : ""}
-                            onclick="updateApplicationStatus(${application.id}, 'Rejected')">
-                            Reject
-                        </button>
+                        ${application.status === "Pending"
+                    ? `
+                                <button class="btn btn-primary"
+                                    onclick="updateApplicationStatus(${application.id}, 'Approved')">
+                                    Approve
+                                </button>
+                                <button class="btn btn-danger"
+                                    onclick="updateApplicationStatus(${application.id}, 'Rejected')">
+                                    Reject
+                                </button>
+                            `
+                    : application.status === "Approved"
+                        ? "<small>Waiting for applicant's response</small>"
+                        : "<small>Done</small>"}
                     </td>
                 </tr>
             `;
