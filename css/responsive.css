@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* =========================================================
    RESPONSIVE
 ========================================================= */
@@ -125,4 +126,133 @@
         flex-direction: column;
     }
 
+=======
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1000px) {
+
+    .job-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .stats {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .filter-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .dashboard {
+        grid-template-columns:
+            1fr;
+    }
+
+    .sidebar {
+        position: static;
+    }
+
+}
+
+
+@media (max-width: 750px) {
+
+    .mobile-menu {
+        display: block;
+    }
+
+    #navLinks {
+        display: none;
+
+        position: absolute;
+
+        left: 0;
+
+        top: 72px;
+
+        width: 100%;
+
+        background: white;
+
+        padding: 15px;
+
+        flex-direction: column;
+
+        box-shadow: var(--shadow);
+    }
+
+    #navLinks.show {
+        display: flex;
+    }
+
+    #navLinks button {
+        width: 100%;
+
+        text-align: left;
+    }
+
+    .search-box {
+        grid-template-columns: 1fr;
+    }
+
+    .search-btn {
+        width: 100%;
+    }
+
+    .job-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .filter-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section-header {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+    .hero {
+        padding:
+            65px 15px;
+    }
+
+    .auth-card,
+    .panel,
+    .modal-box {
+        padding: 22px;
+    }
+
+    .job-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-actions {
+        flex-direction: column;
+    }
+
+>>>>>>> 205fbd4de92d1e9ae54ff31551dce46313475eac
 }

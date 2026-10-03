@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*=========================================================
    TABLE
 ========================================================= */
@@ -31,4 +32,39 @@ th {
 
 td {
     font-size: 14px;
+=======
+/*=========================================================
+   TABLE
+========================================================= */
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 13px;
+
+    border-bottom:
+        1px solid var(--border);
+
+    text-align: left;
+}
+
+th {
+    background:
+        #f8fafc;
+
+    font-size: 13px;
+}
+
+td {
+    font-size: 14px;
+>>>>>>> 205fbd4de92d1e9ae54ff31551dce46313475eac
 }

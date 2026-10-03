@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* =========================================================
    FOOTER
 ========================================================= */
@@ -32,4 +33,40 @@ footer p {
     margin-top: 15px;
 
     font-size: 13px;
+=======
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+    background:
+        var(--dark);
+
+    color: white;
+
+    padding:
+        40px 0;
+
+    text-align: center;
+
+    margin-top: 50px;
+}
+
+.footer-logo {
+    font-size: 24px;
+
+    font-weight: 800;
+
+    margin-bottom: 5px;
+}
+
+footer p {
+    color: #cbd5e1;
+}
+
+.copyright {
+    margin-top: 15px;
+
+    font-size: 13px;
+>>>>>>> 205fbd4de92d1e9ae54ff31551dce46313475eac
 }

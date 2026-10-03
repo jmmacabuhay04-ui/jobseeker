@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* =========================================================
    EMPTY STATE
 ========================================================= */
@@ -24,4 +25,32 @@
     color: var(--text);
 
     margin-bottom: 7px;
+=======
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.empty {
+    background: white;
+
+    border:
+        1px dashed var(--border);
+
+    border-radius: 12px;
+
+    padding: 50px;
+
+    text-align: center;
+
+    color: var(--muted);
+
+    grid-column:
+        1 / -1;
+}
+
+.empty h3 {
+    color: var(--text);
+
+    margin-bottom: 7px;
+>>>>>>> 205fbd4de92d1e9ae54ff31551dce46313475eac
 }
