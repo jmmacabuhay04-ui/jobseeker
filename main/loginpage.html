@@ -1,0 +1,84 @@
+<!-- =========================
+         LOGIN PAGE
+    ========================== -->
+<section id="loginPage" class="auth-page hidden">
+
+    <div class="auth-card">
+
+        <div class="auth-icon">
+            🔐
+        </div>
+
+        <h1>
+            Welcome Back
+        </h1>
+
+        <p class="auth-subtitle">
+            Login to your WorkZone account.
+        </p>
+
+
+        <form onsubmit="login(event)">
+
+            <div class="form-group">
+
+                <label>
+                    Email
+                </label>
+
+                <input class="form-control" id="loginEmail" type="email" placeholder="Enter your email" required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Password
+                </label>
+
+                <input class="form-control" id="loginPassword" type="password" placeholder="Enter your password"
+                    required>
+
+            </div>
+
+
+            <button class="btn btn-primary full-width">
+
+                Login
+
+            </button>
+
+        </form>
+
+
+        <p class="auth-switch">
+
+            Don't have an account?
+
+            <a onclick="showPage('register')">
+                Create one
+            </a>
+
+        </p>
+
+
+        <div class="demo-account">
+
+            <strong>Demo Admin</strong>
+
+            <br>
+
+            Email:
+            admin@workzone.com
+
+            <br>
+
+            Password:
+            admin123
+
+        </div>
+
+    </div>
+
+</section>

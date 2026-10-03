@@ -1,0 +1,99 @@
+<!-- =========================
+         REGISTER PAGE
+    ========================== -->
+<section id="registerPage" class="auth-page hidden">
+
+    <div class="auth-card">
+
+        <div class="auth-icon">
+            👤
+        </div>
+
+        <h1>
+            Create Account
+        </h1>
+
+        <p class="auth-subtitle">
+            Join WorkZone today.
+        </p>
+
+
+        <form onsubmit="register(event)">
+
+            <div class="form-group">
+
+                <label>
+                    Full Name
+                </label>
+
+                <input class="form-control" id="registerName" placeholder="Your full name" required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Email
+                </label>
+
+                <input class="form-control" id="registerEmail" type="email" placeholder="your@email.com" required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Password
+                </label>
+
+                <input class="form-control" id="registerPassword" type="password" minlength="6"
+                    placeholder="Minimum 6 characters" required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Account Type
+                </label>
+
+                <select class="form-control" id="registerRole">
+
+                    <option value="seeker">
+                        Job
+                    </option>
+
+                    <option value="employer">
+                        Employer
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <button class="btn btn-primary full-width">
+
+                Create Account
+
+            </button>
+
+        </form>
+
+
+        <p class="auth-switch">
+
+            Already have an account?
+
+            <a onclick="showPage('login')">
+                Login
+            </a>
+
+        </p>
+
+    </div>
+
+</section>

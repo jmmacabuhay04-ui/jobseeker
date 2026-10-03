@@ -1,0 +1,58 @@
+<!-- =========================
+         NAVIGATION
+    ========================== -->
+<header class="navbar">
+
+    <div class="container nav-container">
+
+        <div class="logo" onclick="showPage('home')">
+            Work<span>Zone</span>
+        </div>
+
+        <button class="mobile-menu" onclick="toggleMenu()">
+            ☰
+        </button>
+
+        <nav id="navLinks">
+
+            <button onclick="showPage('home')">
+                Home
+            </button>
+
+            <button onclick="showPage('jobs')">
+                Find Jobs
+            </button>
+
+            <button onclick="showPage('about')">
+                About
+            </button>
+
+            <span id="guestNav">
+
+                <button onclick="showPage('login')">
+                    Login
+                </button>
+
+                <button class="nav-register" onclick="showPage('register')">
+                    Register
+                </button>
+
+            </span>
+
+            <span id="userNav" class="hidden">
+
+                <button onclick="showPage('dashboard')">
+                    Dashboard
+                </button>
+
+                <button onclick="logout()">
+                    Logout
+                </button>
+
+            </span>
+
+        </nav>
+
+    </div>
+
+</header>

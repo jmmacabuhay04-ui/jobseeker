@@ -1,0 +1,184 @@
+<!-- =========================
+         HOME PAGE
+    ========================== -->
+<main id="homePage">
+
+    <section class="hero">
+
+        <div class="container hero-content">
+
+            <h1>
+                Find Your
+                <span>Work Zone</span>
+            </h1>
+
+            <p>
+                Discover the right opportunity,
+                connect with employers, and build
+                your career.
+            </p>
+
+
+            <div class="search-box">
+
+                <div class="search-field">
+
+                    <span>🔎</span>
+
+                    <input type="text" id="homeKeyword" placeholder="Job title, skill or keyword">
+
+                </div>
+
+
+                <div class="search-field">
+
+                    <span>📍</span>
+
+                    <input type="text" id="homeLocation" placeholder="Location">
+
+                </div>
+
+
+                <select id="homeCategory">
+
+                    <option value="">
+                        All Categories
+                    </option>
+
+                    <option value="IT">
+                        Information Technology
+                    </option>
+
+                    <option value="Design">
+                        Design
+                    </option>
+
+                    <option value="Marketing">
+                        Marketing
+                    </option>
+
+                    <option value="Finance">
+                        Finance
+                    </option>
+
+                    <option value="Education">
+                        Education
+                    </option>
+
+                </select>
+
+
+                <button class="btn btn-primary search-btn" onclick="searchFromHome()">
+
+                    Search Jobs
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- STATISTICS -->
+
+    <section class="container stats-section">
+
+        <div class="stats">
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    💼
+                </div>
+
+                <div>
+                    <h2 id="homeJobCountt">0</h2>
+                    <p>Available Jobs</p>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    🏢
+                </div>
+
+                <div>
+                    <h2 id="homeCompanyCount">0</h2>
+                    <p>Companies</p>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    👥
+                </div>
+
+                <div>
+                    <h2 id="homeApplicantCount">0</h2>
+                    <p>Applicants</p>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    🌎
+                </div>
+
+                <div>
+                    <h2>24/7</h2>
+                    <p>Job Access</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FEATURED JOBS -->
+
+    <section class="section">
+
+        <div class="container">
+
+            <div class="section-header">
+
+                <div>
+                    <span class="section-label">
+                        OPPORTUNITIES
+                    </span>
+
+                    <h2>
+                        Featured Jobs
+                    </h2>
+                </div>
+
+                <button class="btn btn-outline" onclick="showPage('jobs')">
+
+                    View All Jobs →
+
+                </button>
+
+            </div>
+
+
+            <div id="featuredJobs" class="job-grid">
+            </div>
+
+        </div>
+
+    </section>
+
+</main>

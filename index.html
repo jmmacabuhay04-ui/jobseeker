@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>JobSeeker | Find Your Dream Job</title>
+
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/button.css">
+    <link rel="stylesheet" href="css/hero.css">
+    <link rel="stylesheet" href="css/search.css">
+    <link rel="stylesheet" href="css/statistic.css">
+    <link rel="stylesheet" href="css/job.css">
+    <link rel="stylesheet" href="css/section.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/modal.css">
+    <link rel="stylesheet" href="css/toast.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/panel.css">
+    <link rel="stylesheet" href="css/table.css">
+    <link rel="stylesheet" href="css/about.css">
+    <link rel="stylesheet" href="css/badge.css">
+    <link rel="stylesheet" href="css/emptystate.css">
+    <link rel="stylesheet" href="css/filter.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+
+    <div id="app"></div>
+
+    <script>
+        // Ang mga HTML partial na ilo-load, ayon sa pagkakasunod-sunod
+        const partials = [
+            "main/homepage.html",
+            "main/jobpage.html",
+            "main/aboutpage.html",
+            "main/dashboard.html",
+            "main/jobdetailsmodal.html",
+            "main/footer.html"
+        ];
+
+        async function loadPartials() {
+            const app = document.getElementById("app");
+
+            for (const file of partials) {
+                const response = await fetch(file);
+
+                if (!response.ok) {
+                    console.error("Hindi ma-load:", file);
+                    continue;
+                }
+
+                app.insertAdjacentHTML("beforeend", await response.text());
+            }
+        }
+
+        loadPartials().then(() => {
+            const script = document.createElement("script");
+            script.src = "script.js";
+
+            script.onload = () => {
+                initialize();
+                showPage("home");
+            };
+
+            document.body.appendChild(script);
+        });
+    </script>
+
+</body>
+
+</html>
