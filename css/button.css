@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /* =========================================================
    BUTTONS
 ========================================================= */
@@ -61,68 +60,4 @@
 
 .full-width {
     width: 100%;
-=======
-/* =========================================================
-   BUTTONS
-========================================================= */
-
-.btn {
-    border: none;
-
-    border-radius: 8px;
-
-    padding: 11px 18px;
-
-    font-weight: 700;
-
-    transition:
-        background 0.2s,
-        transform 0.2s;
-}
-
-.btn:hover {
-    transform: translateY(-1px);
-}
-
-.btn-primary {
-    background: var(--primary);
-
-    color: white;
-}
-
-.btn-primary:hover {
-    background:
-        var(--primary-dark);
-}
-
-.btn-secondary {
-    background: #e2e8f0;
-
-    color: var(--text);
-}
-
-.btn-outline {
-    background: white;
-
-    color: var(--primary);
-
-    border:
-        1px solid var(--primary);
-}
-
-.btn-success {
-    background: var(--success);
-
-    color: white;
-}
-
-.btn-danger {
-    background: var(--danger);
-
-    color: white;
-}
-
-.full-width {
-    width: 100%;
->>>>>>> 205fbd4de92d1e9ae54ff31551dce46313475eac
 }
