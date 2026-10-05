@@ -1,120 +1,202 @@
 /* =========================================================
-   JOBSEEKER APPLICATION
+   JOBSEEKER APPLICATION  (Supabase version)
 ========================================================= */
 
 
 /* =========================================================
-   DEFAULT JOB DATA
+   SUPABASE CONNECTION
+   (Public/publishable key ito - ligtas sa browser dahil
+   protektado ng Row Level Security sa database.)
 ========================================================= */
 
-const defaultJobs = [
-    {
-        id: 1,
-        title: "Frontend Developer",
-        company: "Tech Solutions Inc.",
-        location: "Manila",
-        category: "IT",
-        type: "Full Time",
-        salary: "₱35,000 - ₱50,000",
-        skills: ["HTML", "CSS", "JavaScript"],
-        description:
-            "Develop responsive and user-friendly websites and web applications.",
-        postedBy: "system"
-    },
-    {
-        id: 2,
-        title: "Backend Developer",
-        company: "Digital Systems",
-        location: "Quezon City",
-        category: "IT",
-        type: "Full Time",
-        salary: "₱40,000 - ₱60,000",
-        skills: ["PHP", "MySQL", "API"],
-        description:
-            "Build APIs, databases, and backend services for business applications.",
-        postedBy: "system"
-    },
-    {
-        id: 3,
-        title: "UI/UX Designer",
-        company: "Creative Studio",
-        location: "Cebu",
-        category: "Design",
-        type: "Full Time",
-        salary: "₱30,000 - ₱45,000",
-        skills: ["Figma", "UI Design", "UX"],
-        description:
-            "Create attractive and user-friendly digital interfaces.",
-        postedBy: "system"
-    },
-    {
-        id: 4,
-        title: "IT Support Specialist",
-        company: "Global IT Corp.",
-        location: "Davao",
-        category: "IT",
-        type: "Full Time",
-        salary: "₱25,000 - ₱35,000",
-        skills: ["Networking", "Windows", "Linux"],
-        description:
-            "Provide technical support and troubleshoot hardware and software problems.",
-        postedBy: "system"
-    },
-    {
-        id: 5,
-        title: "Digital Marketing Specialist",
-        company: "Marketing Pro",
-        location: "Manila",
-        category: "Marketing",
-        type: "Remote",
-        salary: "₱30,000 - ₱45,000",
-        skills: ["SEO", "Social Media", "Analytics"],
-        description:
-            "Develop digital marketing campaigns and manage social media platforms.",
-        postedBy: "system"
-    },
-    {
-        id: 6,
-        title: "Data Analyst",
-        company: "DataWorks",
-        location: "Quezon City",
-        category: "Finance",
-        type: "Full Time",
-        salary: "₱38,000 - ₱55,000",
-        skills: ["Excel", "SQL", "Power BI"],
-        description:
-            "Analyze data and create reports and dashboards for business decisions.",
-        postedBy: "system"
-    }
-];
+const SUPABASE_URL = "https://nxsfvqhvqsdbjlvzxjna.supabase.co";
+const SUPABASE_KEY = "sb_publishable_9Yt2Cn7A-rtJparS2lZAqw_nUoTK6L8";
+
+if (!window.supabase) {
+    console.error(
+        "Supabase library did not load. Check the <script> tag in index.html."
+    );
+}
+
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 
 /* =========================================================
    APPLICATION STATE
 ========================================================= */
 
-let jobs = JSON.parse(localStorage.getItem("jobs")) || defaultJobs;
+let jobs = [];
 
-let users = JSON.parse(localStorage.getItem("users")) || [];
+let applications = [];
 
-let applications = JSON.parse(localStorage.getItem("applications")) || [];
+let savedJobs = [];
 
-let savedJobs = JSON.parse(localStorage.getItem("savedJobs")) || [];
+let profilesMap = {};
 
-let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
+let currentUser = null;
 
 let selectedJob = null;
 
 
 /* =========================================================
-   SAVE DATA
+   HELPERS: DATA MAPPING + ERRORS
 ========================================================= */
 
-function saveData() {
-    localStorage.setItem("jobs", JSON.stringify(jobs));
-    localStorage.setItem("users", JSON.stringify(users));
-    localStorage.setItem("applications", JSON.stringify(applications));
-    localStorage.setItem("savedJobs", JSON.stringify(savedJobs));
+function mapJob(row) {
+    return {
+        id: row.id,
+        title: row.title,
+        company: row.company,
+        location: row.location,
+        category: row.category,
+        type: row.type,
+        salary: row.salary,
+        skills: row.skills || [],
+        description: row.description,
+        postedBy: row.posted_by
+    };
+}
+
+
+function formatDate(value) {
+    if (!value) return "-";
+    const date = new Date(
+        String(value).length <= 10 ? value + "T00:00:00" : value
+    );
+    return date.toLocaleDateString();
+}
+
+
+function mapApplication(row) {
+    return {
+        id: row.id,
+        jobId: row.job_id,
+        userId: row.user_id,
+        status: row.status,
+        appliedAt: formatDate(row.applied_at)
+    };
+}
+
+
+function handleError(error, fallback) {
+    console.error(error);
+    showToast((error && error.message) || fallback || "Something went wrong.");
+}
+
+
+/* =========================================================
+   LOAD DATA FROM DATABASE
+========================================================= */
+
+async function loadJobs() {
+
+    const { data, error } = await sb
+        .from("jobs")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .order("id", { ascending: true });
+
+    if (error) {
+        handleError(error, "Could not load jobs.");
+        return;
+    }
+
+    jobs = data.map(mapJob);
+}
+
+
+async function loadCurrentUser() {
+
+    const { data: sessionData } = await sb.auth.getSession();
+
+    const session = sessionData && sessionData.session;
+
+    if (!session) {
+        currentUser = null;
+        return;
+    }
+
+    const { data, error } = await sb
+        .from("profiles")
+        .select("*")
+        .eq("id", session.user.id)
+        .single();
+
+    if (error || !data) {
+        console.error(error);
+        await sb.auth.signOut();
+        currentUser = null;
+        return;
+    }
+
+    currentUser = {
+        id: data.id,
+        name: data.name,
+        email: data.email,
+        role: data.role,
+        phone: data.phone || "",
+        skills: data.skills || "",
+        education: data.education || "",
+        experience: data.experience || ""
+    };
+}
+
+
+/* Applications, saved jobs, at applicant profiles ng naka-login */
+
+async function refreshUserData() {
+
+    if (!currentUser) {
+        applications = [];
+        savedJobs = [];
+        profilesMap = {};
+        return;
+    }
+
+    const [appsResult, savedResult] = await Promise.all([
+        sb.from("applications").select("*").order("id", { ascending: false }),
+        sb.from("saved_jobs").select("*")
+    ]);
+
+    if (appsResult.error) {
+        handleError(appsResult.error, "Could not load applications.");
+    } else {
+        applications = appsResult.data.map(mapApplication);
+    }
+
+    if (savedResult.error) {
+        handleError(savedResult.error, "Could not load saved jobs.");
+    } else {
+        savedJobs = savedResult.data.map(item => ({
+            id: item.id,
+            userId: item.user_id,
+            jobId: item.job_id
+        }));
+    }
+
+    if (canManageApplications()) {
+
+        const { data } = await sb
+            .from("profiles")
+            .select("id, name, email, skills");
+
+        profilesMap = Object.fromEntries(
+            (data || []).map(profile => [profile.id, profile])
+        );
+    }
+}
+
+
+function renderDashboardData() {
+
+    if (!currentUser) return;
+
+    updateDashboardStats();
+    renderApplications();
+    renderManageApplications();
+    renderSavedJobs();
+    renderPostedJobs();
+    updateManageBadge();
 }
 
 
@@ -169,7 +251,10 @@ function showPage(page) {
         }
 
         document.getElementById("dashboardPage").classList.remove("hidden");
+
         loadDashboard();
+
+        refreshUserData().then(renderDashboardData);
     }
 
     const navLinks = document.getElementById("navLinks");
@@ -193,7 +278,7 @@ function toggleMenu() {
    REGISTER
 ========================================================= */
 
-function register(event) {
+async function register(event) {
 
     event.preventDefault();
 
@@ -206,39 +291,56 @@ function register(event) {
 
     const password = document.getElementById("registerPassword").value;
 
-    const role = document.getElementById("registerRole").value;
+    const roleValue = String(
+        document.getElementById("registerRole").value
+    ).toLowerCase();
 
-    const exists = users.some(user => user.email === email);
+    /* Employer o seeker lang ang pwede. Hindi pwedeng mag-admin sa register. */
 
-    if (exists) {
-        showToast("This email is already registered.");
+    const role = roleValue.includes("employer") ? "employer" : "seeker";
+
+    if (!name) {
+        showToast("Please enter your name.");
         return;
     }
 
-    const newUser = {
-        id: Date.now(),
-        name,
+    if (password.length < 6) {
+        showToast("Password must be at least 6 characters.");
+        return;
+    }
+
+    const { data, error } = await sb.auth.signUp({
         email,
         password,
-        role,
-        phone: "",
-        skills: "",
-        education: "",
-        experience: ""
-    };
+        options: { data: { name, role } }
+    });
 
-    users.push(newUser);
-    saveData();
+    if (error) {
+        handleError(error, "Could not create account.");
+        return;
+    }
 
     document.getElementById("registerName").value = "";
     document.getElementById("registerEmail").value = "";
     document.getElementById("registerPassword").value = "";
 
-    updateHomeStats();
+    if (data.session) {
 
-    showToast("Account created successfully!");
+        await loadCurrentUser();
+        await refreshUserData();
 
-    showPage("login");
+        updateNavigation();
+
+        showToast("Account created successfully!");
+
+        showPage("dashboard");
+
+    } else {
+
+        showToast("Account created. Please check your email to confirm it.");
+
+        showPage("login");
+    }
 }
 
 
@@ -246,7 +348,7 @@ function register(event) {
    LOGIN
 ========================================================= */
 
-function login(event) {
+async function login(event) {
 
     event.preventDefault();
 
@@ -257,29 +359,29 @@ function login(event) {
 
     const password = document.getElementById("loginPassword").value;
 
-    let user = users.find(
-        user => user.email === email && user.password === password
-    );
+    const { error } = await sb.auth.signInWithPassword({ email, password });
 
-    /* DEMO ADMIN ACCOUNT */
+    if (error) {
 
-    if (email === "admin@workzone.com" && password === "admin123") {
-        user = {
-            id: "admin",
-            name: "Administrator",
-            email: "admin@workzone.com",
-            role: "admin"
-        };
-    }
+        console.error("Login error:", error);
 
-    if (!user) {
-        showToast("Invalid email or password.");
+        showToast(
+            error.message === "Invalid login credentials"
+                ? "Invalid email or password."
+                : error.message
+        );
+
         return;
     }
 
-    currentUser = user;
+    await loadCurrentUser();
 
-    localStorage.setItem("currentUser", JSON.stringify(currentUser));
+    if (!currentUser) {
+        showToast("Could not load your profile. Please try again.");
+        return;
+    }
+
+    await refreshUserData();
 
     updateNavigation();
 
@@ -296,11 +398,14 @@ function login(event) {
    LOGOUT
 ========================================================= */
 
-function logout() {
+async function logout() {
+
+    await sb.auth.signOut();
 
     currentUser = null;
-
-    localStorage.removeItem("currentUser");
+    applications = [];
+    savedJobs = [];
+    profilesMap = {};
 
     clearProfileForm();
 
@@ -481,7 +586,7 @@ function filterJobs() {
 
         const matchesKeyword = searchable.includes(keyword);
 
-        const matchesLocation = job.location
+        const matchesLocation = (job.location || "")
             .toLowerCase()
             .includes(location);
 
@@ -564,7 +669,7 @@ function closeModal() {
    APPLY FOR JOB
 ========================================================= */
 
-function applyFromModal() {
+async function applyFromModal() {
 
     if (!currentUser) {
         closeModal();
@@ -591,25 +696,29 @@ function applyFromModal() {
         return;
     }
 
-    applications.push({
-        id: Date.now(),
-        jobId: selectedJob.id,
-        userId: currentUser.id,
-        status: "Pending",
-        appliedAt: new Date().toLocaleDateString()
+    const { error } = await sb.from("applications").insert({
+        job_id: selectedJob.id,
+        user_id: currentUser.id
     });
 
-    saveData();
+    if (error) {
+
+        if (error.code === "23505") {
+            showToast("You already applied for this job.");
+        } else {
+            handleError(error, "Could not submit application.");
+        }
+
+        return;
+    }
 
     closeModal();
 
+    await refreshUserData();
+
+    renderDashboardData();
+
     showToast("Application submitted! Waiting for approval.");
-
-    updateDashboardStats();
-
-    renderApplications();
-
-    updateManageBadge();
 }
 
 
@@ -617,7 +726,7 @@ function applyFromModal() {
    SAVE JOB
 ========================================================= */
 
-function toggleSaved(id) {
+async function toggleSaved(id) {
 
     if (!currentUser) {
         showToast("Please login to save jobs.");
@@ -625,23 +734,47 @@ function toggleSaved(id) {
         return;
     }
 
-    const index = savedJobs.findIndex(
+    const existing = savedJobs.find(
         item => item.userId === currentUser.id && item.jobId === id
     );
 
-    if (index !== -1) {
-        savedJobs.splice(index, 1);
+    if (existing) {
+
+        const { error } = await sb
+            .from("saved_jobs")
+            .delete()
+            .eq("id", existing.id);
+
+        if (error) {
+            handleError(error, "Could not remove saved job.");
+            return;
+        }
+
+        savedJobs = savedJobs.filter(item => item.id !== existing.id);
+
         showToast("Job removed from saved jobs.");
+
     } else {
+
+        const { data, error } = await sb
+            .from("saved_jobs")
+            .insert({ user_id: currentUser.id, job_id: id })
+            .select()
+            .single();
+
+        if (error) {
+            handleError(error, "Could not save job.");
+            return;
+        }
+
         savedJobs.push({
-            id: Date.now(),
-            userId: currentUser.id,
-            jobId: id
+            id: data.id,
+            userId: data.user_id,
+            jobId: data.job_id
         });
+
         showToast("Job saved!");
     }
-
-    saveData();
 
     renderFeaturedJobs();
     renderAllJobs(jobs);
@@ -720,26 +853,18 @@ function loadProfile() {
 
     if (!currentUser) return;
 
-    /* Linisin muna ang form para hindi maiwan ang data ng dating user */
-
     clearProfileForm();
 
-    if (currentUser.role === "admin") {
-        document.getElementById("profileName").value = currentUser.name || "";
-        document.getElementById("profileEmail").value = currentUser.email || "";
-        return;
-    }
+    document.getElementById("profileName").value = currentUser.name || "";
+    document.getElementById("profileEmail").value = currentUser.email || "";
+    document.getElementById("profilePhone").value = currentUser.phone || "";
+    document.getElementById("profileSkills").value = currentUser.skills || "";
+    document.getElementById("profileEducation").value = currentUser.education || "";
+    document.getElementById("profileExperience").value = currentUser.experience || "";
 
-    const user = users.find(user => user.id === currentUser.id);
+    /* Hindi mababago ang email dito (kailangan ng email verification) */
 
-    if (!user) return;
-
-    document.getElementById("profileName").value = user.name || "";
-    document.getElementById("profileEmail").value = user.email || "";
-    document.getElementById("profilePhone").value = user.phone || "";
-    document.getElementById("profileSkills").value = user.skills || "";
-    document.getElementById("profileEducation").value = user.education || "";
-    document.getElementById("profileExperience").value = user.experience || "";
+    document.getElementById("profileEmail").readOnly = true;
 }
 
 
@@ -747,33 +872,31 @@ function loadProfile() {
    SAVE PROFILE
 ========================================================= */
 
-function saveProfile(event) {
+async function saveProfile(event) {
 
     event.preventDefault();
 
     if (!currentUser) return;
 
-    if (currentUser.role === "admin") {
-        showToast("The admin profile cannot be edited.");
+    const updates = {
+        name: document.getElementById("profileName").value.trim(),
+        phone: document.getElementById("profilePhone").value.trim(),
+        skills: document.getElementById("profileSkills").value.trim(),
+        education: document.getElementById("profileEducation").value.trim(),
+        experience: document.getElementById("profileExperience").value.trim()
+    };
+
+    const { error } = await sb
+        .from("profiles")
+        .update(updates)
+        .eq("id", currentUser.id);
+
+    if (error) {
+        handleError(error, "Could not update profile.");
         return;
     }
 
-    const user = users.find(user => user.id === currentUser.id);
-
-    if (!user) return;
-
-    user.name = document.getElementById("profileName").value.trim();
-    user.email = document.getElementById("profileEmail").value.trim();
-    user.phone = document.getElementById("profilePhone").value.trim();
-    user.skills = document.getElementById("profileSkills").value.trim();
-    user.education = document.getElementById("profileEducation").value.trim();
-    user.experience = document.getElementById("profileExperience").value.trim();
-
-    currentUser = user;
-
-    localStorage.setItem("currentUser", JSON.stringify(currentUser));
-
-    saveData();
+    currentUser = { ...currentUser, ...updates };
 
     updateDashboardUser();
 
@@ -879,21 +1002,10 @@ function renderApplications() {
    JOB SEEKER: ACCEPT / DECLINE APPROVED APPLICATION
 ========================================================= */
 
-function respondToOffer(id, response) {
+async function respondToOffer(id, response) {
 
     if (!currentUser || currentUser.role !== "seeker") {
         showToast("Only job seekers can respond to an offer.");
-        return;
-    }
-
-    const application = applications.find(
-        item => item.id === id && item.userId === currentUser.id
-    );
-
-    if (!application) return;
-
-    if (application.status !== "Approved") {
-        showToast("This application is not waiting for your response.");
         return;
     }
 
@@ -902,12 +1014,27 @@ function respondToOffer(id, response) {
         if (!ok) return;
     }
 
-    application.status = response;
-    application.respondedAt = new Date().toLocaleDateString();
+    const { data, error } = await sb
+        .from("applications")
+        .update({ status: response })
+        .eq("id", id)
+        .select();
 
-    saveData();
+    if (error) {
+        handleError(error, "Could not update application.");
+        return;
+    }
 
-    renderApplications();
+    if (!data || data.length === 0) {
+        showToast("This application is not waiting for your response.");
+        await refreshUserData();
+        renderDashboardData();
+        return;
+    }
+
+    await refreshUserData();
+
+    renderDashboardData();
 
     showToast(
         response === "Accepted"
@@ -922,6 +1049,7 @@ function respondToOffer(id, response) {
 
    - Admin: nakikita ang LAHAT ng applications
    - Employer: applications lang sa mga job na siya ang nag-post
+   (Ang database mismo ang nagpapatupad nito sa pamamagitan ng RLS.)
 ========================================================= */
 
 function canManageApplications() {
@@ -997,9 +1125,7 @@ function renderManageApplications() {
 
             const job = jobs.find(item => item.id === application.jobId);
 
-            const applicant = users.find(
-                user => user.id === application.userId
-            );
+            const applicant = profilesMap[application.userId];
 
             if (!job) return "";
 
@@ -1073,29 +1199,30 @@ function renderManageApplications() {
 }
 
 
-function updateApplicationStatus(id, status) {
+async function updateApplicationStatus(id, status) {
 
     if (!canManageApplications()) {
         showToast("You are not allowed to do that.");
         return;
     }
 
-    /* Siguraduhing pwede niyang i-manage ang application na ito */
+    const { data, error } = await sb
+        .from("applications")
+        .update({ status })
+        .eq("id", id)
+        .select();
 
-    const allowed = getManageableApplications().find(
-        application => application.id === id
-    );
+    if (error) {
+        handleError(error, "Could not update application.");
+        return;
+    }
 
-    if (!allowed) {
+    if (!data || data.length === 0) {
         showToast("You cannot manage this application.");
         return;
     }
 
-    allowed.status = status;
-    allowed.reviewedBy = currentUser.id;
-    allowed.reviewedAt = new Date().toLocaleDateString();
-
-    saveData();
+    await refreshUserData();
 
     renderManageApplications();
 
@@ -1109,7 +1236,7 @@ function updateApplicationStatus(id, status) {
    EMPLOYER POST JOB
 ========================================================= */
 
-function postJob(event) {
+async function postJob(event) {
 
     event.preventDefault();
 
@@ -1124,7 +1251,6 @@ function postJob(event) {
     }
 
     const newJob = {
-        id: Date.now(),
         title: document.getElementById("postTitle").value.trim(),
         company: document.getElementById("postCompany").value.trim(),
         location: document.getElementById("postLocation").value.trim(),
@@ -1137,14 +1263,19 @@ function postJob(event) {
             .map(skill => skill.trim())
             .filter(Boolean),
         description: document.getElementById("postDescription").value.trim(),
-        postedBy: currentUser.id
+        posted_by: currentUser.id
     };
 
-    jobs.unshift(newJob);
+    const { error } = await sb.from("jobs").insert(newJob);
 
-    saveData();
+    if (error) {
+        handleError(error, "Could not post job.");
+        return;
+    }
 
     document.querySelector("#tabEmployer form").reset();
+
+    await loadJobs();
 
     renderPostedJobs();
     renderFeaturedJobs();
@@ -1204,7 +1335,7 @@ function renderPostedJobs() {
    DELETE JOB
 ========================================================= */
 
-function deleteJob(id) {
+async function deleteJob(id) {
 
     const confirmDelete = confirm(
         "Are you sure you want to delete this job?"
@@ -1212,25 +1343,21 @@ function deleteJob(id) {
 
     if (!confirmDelete) return;
 
-    jobs = jobs.filter(job => job.id !== id);
+    const { error } = await sb.from("jobs").delete().eq("id", id);
 
-    applications = applications.filter(
-        application => application.jobId !== id
-    );
+    if (error) {
+        handleError(error, "Could not delete job.");
+        return;
+    }
 
-    savedJobs = savedJobs.filter(item => item.jobId !== id);
+    await loadJobs();
 
-    saveData();
+    await refreshUserData();
 
-    renderPostedJobs();
     renderFeaturedJobs();
     renderAllJobs(jobs);
-    renderApplications();
-    renderManageApplications();
-    renderSavedJobs();
+    renderDashboardData();
     updateHomeStats();
-    updateDashboardStats();
-    updateManageBadge();
 
     showToast("Job deleted successfully.");
 }
@@ -1260,13 +1387,19 @@ function dashboardTab(tab, clickedButton) {
 
     if (tab === "profile") loadProfile();
 
-    if (tab === "applications") renderApplications();
-
     if (tab === "saved") renderSavedJobs();
 
     if (tab === "employer") renderPostedJobs();
 
+    if (tab === "applications") renderApplications();
+
     if (tab === "manage") renderManageApplications();
+
+    /* Kunin ang pinakabagong data para makita agad ang mga update */
+
+    if (tab === "applications" || tab === "manage") {
+        refreshUserData().then(renderDashboardData);
+    }
 }
 
 
@@ -1305,7 +1438,22 @@ function loadDashboard() {
         adminMenu.classList.toggle("hidden", !canManageApplications());
     }
 
+    /* Applications at Saved Jobs ay para sa job seeker lang */
+
+    const isSeeker = currentUser.role === "seeker";
+
+    ["seekerApplicationsMenu", "seekerSavedMenu"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.toggle("hidden", !isSeeker);
+    });
+
     updateManageBadge();
+
+    /* Bumalik sa Overview tuwing papasok sa dashboard */
+
+    const overviewButton = document.querySelector(".sidebar-link");
+
+    dashboardTab("overview", overviewButton);
 }
 
 
@@ -1374,11 +1522,8 @@ function updateHomeStats() {
 
     const companyCount = new Set(jobs.map(job => job.company)).size;
 
-    const applicantCount = users.filter(user => user.role === "seeker").length;
-
     setText("homeJobCount", jobs.length);
     setText("homeCompanyCount", companyCount);
-    setText("homeApplicantCount", applicantCount);
 }
 
 
@@ -1426,9 +1571,16 @@ function escapeHTML(value) {
 
 /* =========================================================
    INITIALIZATION
+   (Tinatawag ng index.html pagkatapos ma-load ang script)
 ========================================================= */
 
-function initialize() {
+async function initialize() {
+
+    await loadJobs();
+
+    await loadCurrentUser();
+
+    await refreshUserData();
 
     updateNavigation();
 
@@ -1440,10 +1592,6 @@ function initialize() {
 
     if (currentUser) {
         loadDashboard();
+        renderDashboardData();
     }
 }
-
-
-/* START APPLICATION */
-
-document.addEventListener("DOMContentLoaded", initialize);

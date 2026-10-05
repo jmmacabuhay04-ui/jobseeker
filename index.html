@@ -26,13 +26,14 @@
     <link rel="stylesheet" href="css/emptystate.css">
     <link rel="stylesheet" href="css/filter.css">
     <link rel="stylesheet" href="css/responsive.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/statistics.css">
 </head>
 
 <body>
 
     <div id="app"></div>
+
+    <!-- Supabase client library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script>
         // Ang mga HTML partial na ilo-load, ayon sa pagkakasunod-sunod
@@ -48,6 +49,7 @@
             "main/toast.html",
             "main/footer.html"
         ];
+
         async function loadPartials() {
             const app = document.getElementById("app");
 
@@ -67,8 +69,8 @@
             const script = document.createElement("script");
             script.src = "script.js";
 
-            script.onload = () => {
-                initialize();
+            script.onload = async () => {
+                await initialize();
                 showPage("home");
             };
 
