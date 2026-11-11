@@ -4,24 +4,16 @@
 
 .toast {
     position: fixed;
-
     right: 20px;
-
     bottom: 20px;
-
-    background:
-        var(--dark);
-
-    color: white;
-
-    padding:
-        14px 18px;
-
-    border-radius: 8px;
-
+    max-width: min(380px, calc(100% - 40px));
+    background: var(--ink);
+    color: #fff;
+    padding: 14px 18px 14px 16px;
+    border-left: 6px solid var(--signal);
+    border-radius: var(--radius-sm);
+    font-weight: 600;
     z-index: 5000;
-
     display: none;
-
-    box-shadow: var(--shadow);
+    box-shadow: 0 12px 30px rgba(28, 32, 38, 0.25);
 }

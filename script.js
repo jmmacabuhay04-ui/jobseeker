@@ -449,18 +449,19 @@ function createJobCard(job) {
     }
 
     return `
+        <article class="job-card">
 
-        <div class="job-card">
+            <div class="job-card-top">
+                <span class="company">${escapeHTML(job.company)}</span>
+                <span class="job-type">${escapeHTML(job.type)}</span>
+            </div>
 
             <h3>${escapeHTML(job.title)}</h3>
 
-            <p class="company">${escapeHTML(job.company)}</p>
-
-            <p class="meta">📍 ${escapeHTML(job.location)}</p>
-
-            <p class="meta">💰 ${escapeHTML(job.salary)}</p>
-
-            <p class="meta">💼 ${escapeHTML(job.type)}</p>
+            <div class="job-facts">
+                <span>${icon("pin")}${escapeHTML(job.location)}</span>
+                <span>${icon("wallet")}${escapeHTML(job.salary)}</span>
+            </div>
 
             <div class="tags">
                 ${job.skills
@@ -471,18 +472,27 @@ function createJobCard(job) {
             <div class="job-actions">
 
                 <button class="btn btn-primary" onclick="openJob(${job.id})">
-                    View Details
+                    View details
                 </button>
 
-                <button class="btn btn-secondary" onclick="toggleSaved(${job.id})">
-                    ${isSaved ? "★ Saved" : "☆ Save"}
+                <button class="btn btn-secondary btn-save ${isSaved ? "is-saved" : ""}"
+                    onclick="toggleSaved(${job.id})"
+                    aria-pressed="${isSaved}"
+                    aria-label="${isSaved ? "Remove from saved jobs" : "Save job"}">
+                    ${icon("star")}${isSaved ? "Saved" : "Save"}
                 </button>
 
             </div>
 
-        </div>
-
+        </article>
     `;
+}
+
+
+/* Maliit na helper para sa SVG icons (nasa navigation.html ang sprite) */
+
+function icon(name) {
+    return `<svg class="icon" aria-hidden="true"><use href="#i-${name}" /></svg>`;
 }
 
 
@@ -500,7 +510,10 @@ function renderFeaturedJobs() {
 
     if (featured.length === 0) {
         container.innerHTML = `
-            <div class="empty">No jobs available.</div>
+            <div class="empty">
+                <h3>No openings yet</h3>
+                <p>New jobs will show up here as soon as employers post them.</p>
+            </div>
         `;
         updateHomeStats();
         return;
@@ -522,11 +535,19 @@ function renderAllJobs(jobList) {
 
     if (!container) return;
 
+    const count = jobList ? jobList.length : 0;
+
+    setText(
+        "resultCount",
+        count === 1 ? "1 job found" : count + " jobs found"
+    );
+
     if (!jobList || jobList.length === 0) {
         container.innerHTML = `
             <div class="empty">
-                <h3>No jobs found</h3>
-                <p>Try changing your search or filters.</p>
+                <h3>No jobs match your search</h3>
+                <p>Try a different keyword, or clear the filters to see every opening.</p>
+                <button class="btn btn-outline" onclick="clearFilters()">Clear filters</button>
             </div>
         `;
         return;
@@ -549,6 +570,19 @@ function searchFromHome() {
     document.getElementById("filterKeyword").value = keyword;
     document.getElementById("filterLocation").value = location;
     document.getElementById("filterCategory").value = category;
+
+    showPage("jobs");
+}
+
+
+/* Popular searches sa hero */
+
+function quickSearch(keyword) {
+
+    document.getElementById("filterKeyword").value = keyword;
+    document.getElementById("filterLocation").value = "";
+    document.getElementById("filterCategory").value = "";
+    document.getElementById("filterType").value = "";
 
     showPage("jobs");
 }
@@ -634,16 +668,16 @@ function openJob(id) {
     document.getElementById("modalTitle").textContent = selectedJob.title;
 
     document.getElementById("modalCompany").textContent =
-        "🏢 " + selectedJob.company;
+        selectedJob.company;
 
     document.getElementById("modalLocation").textContent =
-        "📍 " + selectedJob.location;
+        selectedJob.location;
 
     document.getElementById("modalSalary").textContent =
-        "💰 " + selectedJob.salary;
+        selectedJob.salary;
 
     document.getElementById("modalType").textContent =
-        "💼 " + selectedJob.type;
+        selectedJob.type;
 
     document.getElementById("modalDescription").textContent =
         selectedJob.description;
@@ -652,7 +686,24 @@ function openJob(id) {
         .map(skill => `<span class="tag">${escapeHTML(skill)}</span>`)
         .join("");
 
+    updateModalSaveButton();
+
     document.getElementById("jobModal").classList.remove("hidden");
+}
+
+
+function updateModalSaveButton() {
+
+    const button = document.getElementById("modalSaveBtn");
+
+    if (!button || !selectedJob) return;
+
+    const isSaved = !!currentUser && savedJobs.some(
+        item => item.userId === currentUser.id && item.jobId === selectedJob.id
+    );
+
+    button.textContent = isSaved ? "Saved" : "Save job";
+    button.classList.toggle("is-saved", isSaved);
 }
 
 
@@ -663,6 +714,16 @@ function openJob(id) {
 function closeModal() {
     document.getElementById("jobModal").classList.add("hidden");
 }
+
+
+/* Isara ang modal gamit ang Esc key */
+
+document.addEventListener("keydown", event => {
+    const modal = document.getElementById("jobModal");
+    if (event.key === "Escape" && modal && !modal.classList.contains("hidden")) {
+        closeModal();
+    }
+});
 
 
 /* =========================================================
@@ -777,9 +838,15 @@ async function toggleSaved(id) {
     }
 
     renderFeaturedJobs();
-    renderAllJobs(jobs);
+    if (document.getElementById("jobsPage") &&
+        !document.getElementById("jobsPage").classList.contains("hidden")) {
+        filterJobs();
+    } else {
+        renderAllJobs(jobs);
+    }
     renderSavedJobs();
     updateDashboardStats();
+    updateModalSaveButton();
 }
 
 
@@ -819,8 +886,9 @@ function renderSavedJobs() {
     if (saved.length === 0) {
         container.innerHTML = `
             <div class="empty">
-                <h3>No Saved Jobs</h3>
-                <p>Save jobs you are interested in.</p>
+                <h3>No saved jobs yet</h3>
+                <p>Tap Save on any job to keep it here for later.</p>
+                <button class="btn btn-outline" onclick="showPage('jobs')">Browse jobs</button>
             </div>
         `;
         return;
@@ -921,8 +989,9 @@ function renderApplications() {
     if (myApplications.length === 0) {
         container.innerHTML = `
             <div class="empty">
-                <h3>No Applications</h3>
-                <p>Start applying for jobs to see them here.</p>
+                <h3>You haven't applied to any jobs yet</h3>
+                <p>Open a job and choose Apply now. Its status will show up here.</p>
+                <button class="btn btn-outline" onclick="showPage('jobs')">Browse jobs</button>
             </div>
         `;
         return;
@@ -972,14 +1041,16 @@ function renderApplications() {
                                     <td>
                                         ${application.status === "Approved"
                         ? `
-                                                <button class="btn btn-primary"
+                                                <div class="row-actions">
+                                                <button class="btn btn-primary btn-sm"
                                                     onclick="respondToOffer(${application.id}, 'Accepted')">
-                                                    Accept
+                                                    Accept offer
                                                 </button>
-                                                <button class="btn btn-danger"
+                                                <button class="btn btn-danger btn-sm"
                                                     onclick="respondToOffer(${application.id}, 'Declined')">
                                                     Decline
                                                 </button>
+                                                </div>
                                             `
                         : "-"}
                                     </td>
@@ -1089,7 +1160,7 @@ function updateManageBadge() {
     ).length;
 
     menu.innerHTML =
-        "✅ Manage Applications" +
+        icon("check") + "Applicants" +
         (pending > 0 ? ` (${pending})` : "");
 }
 
@@ -1105,8 +1176,8 @@ function renderManageApplications() {
     if (list.length === 0) {
         container.innerHTML = `
             <div class="empty">
-                <h3>No Applications</h3>
-                <p>Applications from job seekers will appear here.</p>
+                <h3>No applicants yet</h3>
+                <p>When someone applies to one of your jobs, you can approve or reject them here.</p>
             </div>
         `;
         return;
@@ -1154,14 +1225,16 @@ function renderManageApplications() {
                     <td>
                         ${application.status === "Pending"
                     ? `
-                                <button class="btn btn-primary"
+                                <div class="row-actions">
+                                <button class="btn btn-primary btn-sm"
                                     onclick="updateApplicationStatus(${application.id}, 'Approved')">
                                     Approve
                                 </button>
-                                <button class="btn btn-danger"
+                                <button class="btn btn-danger btn-sm"
                                     onclick="updateApplicationStatus(${application.id}, 'Rejected')">
                                     Reject
                                 </button>
+                                </div>
                             `
                     : application.status === "Approved"
                         ? "<small>Waiting for applicant's response</small>"
@@ -1302,8 +1375,8 @@ function renderPostedJobs() {
     if (postedJobs.length === 0) {
         container.innerHTML = `
             <div class="empty">
-                <h3>No Jobs Posted</h3>
-                <p>Create your first job posting.</p>
+                <h3>No jobs posted yet</h3>
+                <p>Fill in the form above to publish your first opening.</p>
             </div>
         `;
         return;
@@ -1312,16 +1385,15 @@ function renderPostedJobs() {
     container.innerHTML = postedJobs
         .map(
             job => `
-                <div class="job-card" style="margin-bottom:15px">
+                <div class="posted-job">
 
-                    <h3>${escapeHTML(job.title)}</h3>
+                    <div>
+                        <h3>${escapeHTML(job.title)}</h3>
+                        <p>${escapeHTML(job.company)} · ${escapeHTML(job.location)} · ${escapeHTML(job.type)}</p>
+                    </div>
 
-                    <p class="company">${escapeHTML(job.company)}</p>
-
-                    <p class="meta">📍 ${escapeHTML(job.location)}</p>
-
-                    <button class="btn btn-danger" onclick="deleteJob(${job.id})">
-                        Delete Job
+                    <button class="btn btn-danger btn-sm" onclick="deleteJob(${job.id})">
+                        Delete job
                     </button>
 
                 </div>
@@ -1470,7 +1542,7 @@ function updateDashboardUser() {
             ? "Employer"
             : currentUser.role === "admin"
                 ? "Administrator"
-                : "Job Seeker";
+                : "Job seeker";
 
     setText("dashboardName", currentUser.name);
     setText("sidebarName", currentUser.name);
@@ -1522,8 +1594,13 @@ function updateHomeStats() {
 
     const companyCount = new Set(jobs.map(job => job.company)).size;
 
+    const categoryCount = new Set(
+        jobs.map(job => job.category).filter(Boolean)
+    ).size;
+
     setText("homeJobCount", jobs.length);
     setText("homeCompanyCount", companyCount);
+    setText("homeApplicantCount", categoryCount);
 }
 
 

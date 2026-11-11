@@ -1,0 +1,130 @@
+/* =========================================================
+   BASE: tokens, reset, typography
+   Theme: "work zone" — site signage. Concrete paper,
+   charcoal ink, safety-yellow as the one loud colour.
+========================================================= */
+
+:root {
+    --paper: #eef0eb;        /* concrete */
+    --surface: #ffffff;
+    --ink: #1c2026;          /* charcoal */
+    --ink-soft: #2a3038;
+    --muted: #5b6470;
+    --line: #d5d9d0;
+    --line-strong: #1c2026;
+
+    --signal: #ffc629;       /* safety yellow */
+    --signal-deep: #e0a800;
+    --signal-wash: #fff4cc;
+
+    --success: #1e7a4c;
+    --success-wash: #def3e6;
+    --danger: #b83a24;
+    --danger-wash: #fbe3dd;
+    --info: #2b5c9e;
+    --info-wash: #e1ebf7;
+
+    --radius-sm: 4px;
+    --radius: 8px;
+
+    --font: "Archivo", "Segoe UI", Arial, sans-serif;
+
+    --nav-h: 68px;
+}
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font);
+    font-size: 16px;
+    line-height: 1.55;
+    background: var(--paper);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+    line-height: 1.1;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+}
+
+/* Expanded width = the "signboard" voice of the brand */
+.display {
+    font-stretch: 125%;
+    font-variation-settings: "wdth" 125;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+    color: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+a {
+    color: inherit;
+}
+
+:focus-visible {
+    outline: 3px solid var(--signal-deep);
+    outline-offset: 2px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.container {
+    width: 92%;
+    max-width: 1180px;
+    margin: 0 auto;
+}
+
+.icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* Small sentence-case kicker, used sparingly */
+.kicker {
+    display: block;
+    color: var(--muted);
+    font-size: 15px;
+    margin-bottom: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+    }
+}

@@ -2,78 +2,37 @@
          JOB DETAILS MODAL
     ========================== -->
 
-<div id="jobModal" class="modal hidden">
+<div id="jobModal" class="modal hidden" onclick="if (event.target === this) closeModal()">
 
-    <div class="modal-box">
+    <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
 
-        <button class="modal-close" onclick="closeModal()">
-
-            ×
-
+        <button class="modal-close" onclick="closeModal()" aria-label="Close">
+            <svg class="icon"><use href="#i-x" /></svg>
         </button>
 
+        <p id="modalCompany" class="modal-company"></p>
 
-        <span class="section-label">
-            JOB DETAILS
-        </span>
-
-
-        <h2 id="modalTitle">
-            Job Title
-        </h2>
-
-
-        <p id="modalCompany" class="modal-company">
-        </p>
-
+        <h2 id="modalTitle">Job title</h2>
 
         <div class="modal-info">
-
-            <span id="modalLocation">
-            </span>
-
-            <span id="modalSalary">
-            </span>
-
-            <span id="modalType">
-            </span>
-
+            <span id="modalLocation"></span>
+            <span id="modalSalary"></span>
+            <span id="modalType"></span>
         </div>
 
+        <h3>About the job</h3>
 
-        <hr>
+        <p id="modalDescription"></p>
 
+        <h3>Skills needed</h3>
 
-        <h3>
-            Job Description
-        </h3>
-
-        <p id="modalDescription">
-        </p>
-
-
-        <h3>
-            Required Skills
-        </h3>
-
-        <div id="modalSkills" class="tags">
-        </div>
-
+        <div id="modalSkills" class="tags"></div>
 
         <div class="modal-actions">
 
-            <button class="btn btn-primary" onclick="applyFromModal()">
+            <button class="btn btn-signal" onclick="applyFromModal()">Apply now</button>
 
-                Apply Now
-
-            </button>
-
-
-            <button class="btn btn-secondary" onclick="saveCurrentJob()">
-
-                ⭐ Save Job
-
-            </button>
+            <button id="modalSaveBtn" class="btn btn-secondary" onclick="saveCurrentJob()">Save job</button>
 
         </div>
 
