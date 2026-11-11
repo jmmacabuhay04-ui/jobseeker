@@ -12,69 +12,46 @@
             <div class="sidebar-user">
 
                 <div class="avatar">
-                    👤
+                    <svg class="icon"><use href="#i-user" /></svg>
                 </div>
 
                 <div>
-                    <strong id="sidebarName">
-                        User
-                    </strong>
-
-                    <small id="sidebarRole">
-                        Work Zone
-                    </small>
+                    <strong id="sidebarName">User</strong>
+                    <small id="sidebarRole">Job seeker</small>
                 </div>
 
             </div>
 
-
             <button class="sidebar-link active" onclick="dashboardTab('overview', this)">
-
-                📊
+                <svg class="icon"><use href="#i-grid" /></svg>
                 Overview
-
             </button>
-
 
             <button class="sidebar-link" onclick="dashboardTab('profile', this)">
-
-                👤
-                My Profile
-
+                <svg class="icon"><use href="#i-user" /></svg>
+                My profile
             </button>
-
 
             <button id="seekerApplicationsMenu" class="sidebar-link" onclick="dashboardTab('applications', this)">
-
-                📋
-                Applications
-
+                <svg class="icon"><use href="#i-file" /></svg>
+                My applications
             </button>
-
 
             <button id="seekerSavedMenu" class="sidebar-link" onclick="dashboardTab('saved', this)">
-
-                ⭐
-                Saved Jobs
-
+                <svg class="icon"><use href="#i-star" /></svg>
+                Saved jobs
             </button>
-
 
             <button id="employerMenu" class="sidebar-link hidden" onclick="dashboardTab('employer', this)">
-
-                💼
-                Employer
-
+                <svg class="icon"><use href="#i-plus" /></svg>
+                Post a job
             </button>
 
-
-            <!-- ADMIN ONLY -->
+            <!-- ADMIN / EMPLOYER -->
 
             <button id="adminMenu" class="sidebar-link hidden" onclick="showManageApplications(this)">
-
-                ✅
-                Manage Applications
-
+                <svg class="icon"><use href="#i-check" /></svg>
+                Applicants
             </button>
 
         </aside>
@@ -91,79 +68,32 @@
                 <div class="dashboard-heading">
 
                     <div>
-
-                        <span class="section-label">
-                            DASHBOARD
-                        </span>
-
-                        <h1>
-                            Welcome,
-                            <span id="dashboardName">
-                                User
-                            </span>!
-                        </h1>
-
+                        <span class="kicker">Dashboard</span>
+                        <h1>Hi, <span id="dashboardName">User</span></h1>
                     </div>
 
-                    <button class="btn btn-primary" onclick="showPage('jobs')">
-
-                        Find Jobs
-
+                    <button class="btn btn-signal" onclick="showPage('jobs')">
+                        <svg class="icon"><use href="#i-search" /></svg>
+                        Find jobs
                     </button>
 
                 </div>
 
-
                 <div class="dashboard-stats">
 
                     <div class="dashboard-stat">
-
-                        <span>📋</span>
-
-                        <div>
-                            <h2 id="dashApplications">
-                                0
-                            </h2>
-
-                            <p>
-                                Applications
-                            </p>
-                        </div>
-
+                        <h2 id="dashApplications">0</h2>
+                        <p>Applications</p>
                     </div>
 
-
                     <div class="dashboard-stat">
-
-                        <span>⭐</span>
-
-                        <div>
-                            <h2 id="dashSaved">
-                                0
-                            </h2>
-
-                            <p>
-                                Saved Jobs
-                            </p>
-                        </div>
-
+                        <h2 id="dashSaved">0</h2>
+                        <p>Saved jobs</p>
                     </div>
 
-
                     <div class="dashboard-stat">
-
-                        <span>💼</span>
-
-                        <div>
-                            <h2 id="dashPosted">
-                                0
-                            </h2>
-
-                            <p>
-                                Jobs Posted
-                            </p>
-                        </div>
-
+                        <h2 id="dashPosted">0</h2>
+                        <p>Jobs posted</p>
                     </div>
 
                 </div>
@@ -177,91 +107,53 @@
 
                 <div class="panel">
 
-                    <h2>
-                        My Profile
-                    </h2>
+                    <h2>My profile</h2>
 
                     <form onsubmit="saveProfile(event)">
 
                         <div class="form-row">
 
                             <div class="form-group">
-
-                                <label>
-                                    Full Name
-                                </label>
-
+                                <label for="profileName">Full name</label>
                                 <input class="form-control" id="profileName" required>
-
                             </div>
 
-
                             <div class="form-group">
-
-                                <label>
-                                    Email
-                                </label>
-
+                                <label for="profileEmail">Email</label>
                                 <input class="form-control" id="profileEmail" type="email" required>
-
+                                <p class="form-hint">Email can't be changed here.</p>
                             </div>
 
                         </div>
-
 
                         <div class="form-row">
 
                             <div class="form-group">
-
-                                <label>
-                                    Phone
-                                </label>
-
-                                <input class="form-control" id="profilePhone" placeholder="+63...">
-
+                                <label for="profilePhone">Phone</label>
+                                <input class="form-control" id="profilePhone" placeholder="+63 9XX XXX XXXX">
                             </div>
-
 
                             <div class="form-group">
-
-                                <label>
-                                    Skills
-                                </label>
-
+                                <label for="profileSkills">Skills</label>
                                 <input class="form-control" id="profileSkills" placeholder="HTML, CSS, JavaScript">
-
+                                <p class="form-hint">Separate skills with commas.</p>
                             </div>
 
                         </div>
 
-
                         <div class="form-group">
-
-                            <label>
-                                Education
-                            </label>
-
+                            <label for="profileEducation">Education</label>
                             <textarea class="form-control" id="profileEducation" rows="4"
-                                placeholder="Your education"></textarea>
-
+                                placeholder="School, course and year"></textarea>
                         </div>
-
 
                         <div class="form-group">
-
-                            <label>
-                                Work Experience
-                            </label>
-
+                            <label for="profileExperience">Work experience</label>
                             <textarea class="form-control" id="profileExperience" rows="4"
-                                placeholder="Your work experience"></textarea>
-
+                                placeholder="Past jobs, internships or projects"></textarea>
                         </div>
 
-
-                        <button class="btn btn-primary">
-                            Save Profile
-                        </button>
+                        <button class="btn btn-primary">Save profile</button>
 
                     </form>
 
@@ -277,11 +169,7 @@
                 <div class="panel">
 
                     <div class="panel-heading">
-
-                        <h2>
-                            My Applications
-                        </h2>
-
+                        <h2>My applications</h2>
                     </div>
 
                     <div id="applicationTable">
@@ -298,9 +186,7 @@
 
                 <div class="panel">
 
-                    <h2>
-                        Saved Jobs
-                    </h2>
+                    <h2>Saved jobs</h2>
 
                     <div id="savedJobList" class="job-grid">
                     </div>
@@ -316,167 +202,84 @@
 
                 <div class="panel">
 
-                    <h2>
-                        Post a Job
-                    </h2>
-
+                    <h2>Post a job</h2>
 
                     <form onsubmit="postJob(event)">
 
                         <div class="form-row">
 
                             <div class="form-group">
-
-                                <label>
-                                    Job Title
-                                </label>
-
-                                <input class="form-control" id="postTitle" required>
-
+                                <label for="postTitle">Job title</label>
+                                <input class="form-control" id="postTitle" placeholder="e.g. Junior Web Developer"
+                                    required>
                             </div>
 
-
                             <div class="form-group">
-
-                                <label>
-                                    Company
-                                </label>
-
+                                <label for="postCompany">Company</label>
                                 <input class="form-control" id="postCompany" required>
-
                             </div>
 
                         </div>
 
-
                         <div class="form-row">
 
                             <div class="form-group">
-
-                                <label>
-                                    Location
-                                </label>
-
-                                <input class="form-control" id="postLocation" required>
-
+                                <label for="postLocation">Location</label>
+                                <input class="form-control" id="postLocation" placeholder="e.g. Makati City" required>
                             </div>
 
-
                             <div class="form-group">
-
-                                <label>
-                                    Salary
-                                </label>
-
-                                <input class="form-control" id="postSalary" placeholder="₱30,000 - ₱50,000" required>
-
+                                <label for="postSalary">Salary</label>
+                                <input class="form-control" id="postSalary" placeholder="₱30,000 – ₱50,000" required>
                             </div>
 
                         </div>
 
-
                         <div class="form-row">
 
                             <div class="form-group">
-
-                                <label>
-                                    Category
-                                </label>
-
+                                <label for="postCategory">Category</label>
                                 <select class="form-control" id="postCategory">
-
-                                    <option value="IT">
-                                        IT
-                                    </option>
-
-                                    <option value="Design">
-                                        Design
-                                    </option>
-
-                                    <option value="Marketing">
-                                        Marketing
-                                    </option>
-
-                                    <option value="Finance">
-                                        Finance
-                                    </option>
-
-                                    <option value="Education">
-                                        Education
-                                    </option>
-
+                                    <option value="IT">IT</option>
+                                    <option value="Design">Design</option>
+                                    <option value="Marketing">Marketing</option>
+                                    <option value="Finance">Finance</option>
+                                    <option value="Education">Education</option>
                                 </select>
-
                             </div>
-
 
                             <div class="form-group">
-
-                                <label>
-                                    Employment Type
-                                </label>
-
+                                <label for="postType">Employment type</label>
                                 <select class="form-control" id="postType">
-
-                                    <option>
-                                        Full Time
-                                    </option>
-
-                                    <option>
-                                        Part Time
-                                    </option>
-
-                                    <option>
-                                        Remote
-                                    </option>
-
-                                    <option>
-                                        Internship
-                                    </option>
-
+                                    <option value="Full Time">Full time</option>
+                                    <option value="Part Time">Part time</option>
+                                    <option value="Remote">Remote</option>
+                                    <option value="Internship">Internship</option>
                                 </select>
-
                             </div>
 
                         </div>
 
-
                         <div class="form-group">
-
-                            <label>
-                                Skills
-                            </label>
-
+                            <label for="postSkills">Skills needed</label>
                             <input class="form-control" id="postSkills" placeholder="HTML, CSS, JavaScript" required>
-
+                            <p class="form-hint">Separate skills with commas.</p>
                         </div>
-
 
                         <div class="form-group">
-
-                            <label>
-                                Job Description
-                            </label>
-
+                            <label for="postDescription">Job description</label>
                             <textarea class="form-control" id="postDescription" rows="5" required></textarea>
-
                         </div>
 
-
-                        <button class="btn btn-primary">
-                            Publish Job
-                        </button>
+                        <button class="btn btn-primary">Publish job</button>
 
                     </form>
 
                 </div>
 
-
                 <div class="panel">
 
-                    <h2>
-                        My Posted Jobs
-                    </h2>
+                    <h2>My posted jobs</h2>
 
                     <div id="postedJobs">
                     </div>
@@ -486,18 +289,14 @@
             </div>
 
 
-            <!-- MANAGE APPLICATIONS (ADMIN) -->
+            <!-- MANAGE APPLICATIONS (ADMIN / EMPLOYER) -->
 
             <div id="tabManage" class="dashboard-tab hidden">
 
                 <div class="panel">
 
                     <div class="panel-heading">
-
-                        <h2>
-                            Manage Applications
-                        </h2>
-
+                        <h2>Applicants</h2>
                     </div>
 
                     <div id="manageTable">

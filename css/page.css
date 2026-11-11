@@ -1,0 +1,150 @@
+/* =========================================================
+   PAGES, SECTIONS, FILTER, ABOUT, EMPTY STATE
+========================================================= */
+
+.section {
+    padding: 64px 0;
+}
+
+.section-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.section-header h2 {
+    font-size: clamp(28px, 4vw, 40px);
+    font-stretch: 125%;
+    font-variation-settings: "wdth" 125;
+    font-weight: 900;
+}
+
+.page {
+    min-height: calc(100vh - var(--nav-h));
+    padding: 48px 0 80px;
+}
+
+.page-heading {
+    margin-bottom: 28px;
+}
+
+.page-heading h1 {
+    font-size: clamp(34px, 5vw, 56px);
+    margin-bottom: 8px;
+}
+
+.page-heading p {
+    color: var(--muted);
+    max-width: 60ch;
+}
+
+/* ---------- Filter ---------- */
+
+.filter-box {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 14px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 18px;
+    margin-bottom: 14px;
+}
+
+.filter-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    gap: 12px;
+}
+
+.result-count {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 14px;
+}
+
+/* ---------- About ---------- */
+
+.about-layout {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 48px;
+    align-items: start;
+}
+
+.about-layout h1 {
+    font-size: clamp(36px, 5vw, 60px);
+    line-height: 1;
+    margin-bottom: 20px;
+}
+
+.about-layout p {
+    color: var(--ink-soft);
+    font-size: 17px;
+    max-width: 56ch;
+    margin-bottom: 14px;
+}
+
+.about-roles {
+    display: grid;
+    gap: 14px;
+}
+
+.about-role {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-left: 6px solid var(--signal);
+    border-radius: var(--radius-sm);
+    padding: 22px;
+}
+
+.about-role:last-child {
+    border-left-color: var(--ink);
+}
+
+.about-role h2 {
+    font-size: 20px;
+    margin-bottom: 8px;
+}
+
+.about-role ul {
+    list-style: none;
+    display: grid;
+    gap: 6px;
+    color: var(--ink-soft);
+}
+
+.about-role li::before {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: var(--ink);
+    margin-right: 10px;
+    transform: translateY(-2px) rotate(45deg);
+}
+
+/* ---------- Empty state ---------- */
+
+.empty {
+    grid-column: 1 / -1;
+    background: transparent;
+    border: 2px dashed var(--line);
+    border-radius: var(--radius);
+    padding: 44px 24px;
+    text-align: center;
+    color: var(--muted);
+}
+
+.empty h3 {
+    color: var(--ink);
+    font-size: 19px;
+    margin-bottom: 6px;
+}
+
+.empty .btn {
+    margin-top: 14px;
+}

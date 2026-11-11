@@ -3,33 +3,30 @@
 ========================================================= */
 
 footer {
-    background:
-        var(--dark);
-
-    color: white;
-
-    padding:
-        40px 0;
-
-    text-align: center;
-
-    margin-top: 50px;
+    background: var(--ink);
+    color: #fff;
+    margin-top: 40px;
 }
 
-.footer-logo {
-    font-size: 24px;
-
-    font-weight: 800;
-
-    margin-bottom: 5px;
+footer .hazard {
+    height: 12px;
 }
 
-footer p {
-    color: #cbd5e1;
+.footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 32px 0;
 }
 
-.copyright {
-    margin-top: 15px;
+.footer-inner p {
+    color: #9aa2ab;
+    font-size: 14px;
+}
 
-    font-size: 13px;
+.footer-inner .logo {
+    font-size: 20px;
+    cursor: default;
 }

@@ -1,0 +1,62 @@
+/* =========================================================
+   FORMS
+========================================================= */
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label,
+.filter-grid label {
+    display: block;
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 11px 12px;
+    border: 2px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.15s;
+}
+
+.form-control:hover {
+    border-color: #b9beb4;
+}
+
+.form-control:focus {
+    border-color: var(--ink);
+}
+
+.form-control[readonly] {
+    background: var(--paper);
+    color: var(--muted);
+}
+
+textarea.form-control {
+    resize: vertical;
+}
+
+.form-hint {
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+/* Role picker on register */
+.role-picker {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
