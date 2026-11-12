@@ -593,7 +593,12 @@ function renderFeaturedJobs() {
 
     const container = document.getElementById("featuredJobs");
 
-    if (!container) return;
+    // Wala nang job cards sa homepage; categories at stats na lang
+    if (!container) {
+        updateHomeStats();
+        renderCategories();
+        return;
+    }
 
     const featured = jobs.slice(0, 6);
 
