@@ -257,6 +257,10 @@ function showPage(page) {
         refreshUserData().then(renderDashboardData);
     }
 
+    document.querySelectorAll(".nav-main [data-page]").forEach(button => {
+        button.classList.toggle("active", button.dataset.page === page);
+    });
+
     const navLinks = document.getElementById("navLinks");
     if (navLinks) navLinks.classList.remove("show");
 
@@ -429,6 +433,9 @@ function updateNavigation() {
 
     guestNav.classList.toggle("hidden", !!currentUser);
     userNav.classList.toggle("hidden", !currentUser);
+
+    const navDashboard = document.getElementById("navDashboard");
+    if (navDashboard) navDashboard.classList.toggle("hidden", !currentUser);
 }
 
 
@@ -451,12 +458,20 @@ function createJobCard(job) {
     return `
         <article class="job-card">
 
-            <div class="job-card-top">
-                <span class="company">${escapeHTML(job.company)}</span>
-                <span class="job-type">${escapeHTML(job.type)}</span>
-            </div>
+            <span class="job-type">${escapeHTML(job.type)}</span>
 
-            <h3>${escapeHTML(job.title)}</h3>
+            <div class="job-head">
+
+                <div class="company-logo" style="background:${logoColor(job.company)}" aria-hidden="true">
+                    ${escapeHTML(companyInitials(job.company))}
+                </div>
+
+                <div>
+                    <h3>${escapeHTML(job.title)}</h3>
+                    <p class="company">${escapeHTML(job.company)}</p>
+                </div>
+
+            </div>
 
             <div class="job-facts">
                 <span>${icon("pin")}${escapeHTML(job.location)}</span>
@@ -471,21 +486,42 @@ function createJobCard(job) {
 
             <div class="job-actions">
 
-                <button class="btn btn-primary" onclick="openJob(${job.id})">
-                    View details
-                </button>
-
-                <button class="btn btn-secondary btn-save ${isSaved ? "is-saved" : ""}"
+                <button class="btn-icon ${isSaved ? "is-saved" : ""}"
                     onclick="toggleSaved(${job.id})"
                     aria-pressed="${isSaved}"
-                    aria-label="${isSaved ? "Remove from saved jobs" : "Save job"}">
-                    ${icon("star")}${isSaved ? "Saved" : "Save"}
+                    aria-label="${isSaved ? "Remove from saved jobs" : "Save job"}"
+                    title="${isSaved ? "Saved" : "Save job"}">
+                    ${icon("star")}
+                </button>
+
+                <button class="btn btn-primary" onclick="openJob(${job.id})">
+                    Apply now
                 </button>
 
             </div>
 
         </article>
     `;
+}
+
+
+/* Logo placeholder: initials ng company + kulay na laging pareho */
+
+function companyInitials(name) {
+    return String(name || "?")
+        .split(/\s+/)
+        .filter(Boolean)
+        .slice(0, 2)
+        .map(word => word[0].toUpperCase())
+        .join("");
+}
+
+
+function logoColor(name) {
+    const colors = ["#1f8a4c", "#2867b2", "#d9822b", "#7b4fc4", "#c0392b", "#138a8a"];
+    let hash = 0;
+    for (const char of String(name || "")) hash = (hash * 31 + char.charCodeAt(0)) >>> 0;
+    return colors[hash % colors.length];
 }
 
 
@@ -565,7 +601,8 @@ function searchFromHome() {
 
     const keyword = document.getElementById("homeKeyword").value;
     const location = document.getElementById("homeLocation").value;
-    const category = document.getElementById("homeCategory").value;
+    const categoryInput = document.getElementById("homeCategory");
+    const category = categoryInput ? categoryInput.value : "";
 
     document.getElementById("filterKeyword").value = keyword;
     document.getElementById("filterLocation").value = location;
@@ -577,12 +614,27 @@ function searchFromHome() {
 
 /* Popular searches sa hero */
 
-function quickSearch(keyword) {
+function quickSearch(value) {
 
-    document.getElementById("filterKeyword").value = keyword;
+    const category = document.getElementById("filterCategory");
+    const type = document.getElementById("filterType");
+
+    const hasOption = (select, val) =>
+        [...select.options].some(option => option.value === val);
+
+    document.getElementById("filterKeyword").value = "";
     document.getElementById("filterLocation").value = "";
-    document.getElementById("filterCategory").value = "";
-    document.getElementById("filterType").value = "";
+    category.value = "";
+    type.value = "";
+
+    // Kung category o employment type ang pinindot, doon i-filter
+    if (hasOption(category, value)) {
+        category.value = value;
+    } else if (hasOption(type, value)) {
+        type.value = value;
+    } else {
+        document.getElementById("filterKeyword").value = value;
+    }
 
     showPage("jobs");
 }

@@ -3,13 +3,11 @@
 ========================================================= */
 
 footer {
-    background: var(--ink);
+    background:
+        radial-gradient(circle at 92% 120%, rgba(255, 255, 255, 0.14) 0, rgba(255, 255, 255, 0) 35%),
+        var(--green);
     color: #fff;
     margin-top: 40px;
-}
-
-footer .hazard {
-    height: 12px;
 }
 
 .footer-inner {
@@ -18,15 +16,38 @@ footer .hazard {
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 16px;
-    padding: 32px 0;
+    padding: 26px 0;
 }
 
-.footer-inner p {
-    color: #9aa2ab;
-    font-size: 14px;
+.footer-tagline {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: clamp(18px, 2.2vw, 22px);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+}
+
+.footer-tagline .icon {
+    width: 30px;
+    height: 30px;
 }
 
 .footer-inner .logo {
-    font-size: 20px;
+    color: #fff;
+    font-size: 22px;
     cursor: default;
+}
+
+.footer-inner .logo-text span,
+.footer-inner .logo-mark {
+    color: #fff;
+}
+
+.footer-copy {
+    width: 100%;
+    color: #cbe8d5;
+    font-size: 13px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding-top: 16px;
 }
