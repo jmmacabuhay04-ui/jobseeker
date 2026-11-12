@@ -15,6 +15,13 @@
     <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></symbol>
     <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
     <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5 10 17l9-10"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 4.5 3.4 8.3 8 9 4.6-.7 8-4.5 8-9V6z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20h16"/><path d="M7 16v-4M12 16V9M17 16V5"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 10h8M8 13h5"/></symbol>
+    <symbol id="i-fire" viewBox="0 0 24 24"><path d="M12 3c1 4 5 5.5 5 10a5 5 0 0 1-10 0c0-2.5 1.5-4 2.5-5 .3 2 1.5 3 2.5 3-1-3 0-6 0-8z"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-logo" viewBox="0 0 40 40"><circle cx="17" cy="17" r="12" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="17" cy="14" r="4" fill="currentColor" stroke="none"/><path d="M9.5 24.5c1.8-3.2 4.4-4.8 7.5-4.8s5.7 1.6 7.5 4.8" fill="currentColor" stroke="none"/><path d="m26 26 9 9" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></symbol>
 </svg>
 
 
@@ -26,8 +33,8 @@
     <div class="container nav-container">
 
         <button class="logo" onclick="showPage('home')" aria-label="WorkZone home">
-            <span class="logo-mark" aria-hidden="true"></span>
-            WorkZone
+            <svg class="logo-mark" aria-hidden="true"><use href="#i-logo" /></svg>
+            <span class="logo-text">Work<span>Zone</span></span>
         </button>
 
         <button class="mobile-menu" onclick="toggleMenu()" aria-label="Open menu">
@@ -36,27 +43,35 @@
 
         <nav id="navLinks">
 
-            <button onclick="showPage('home')">Home</button>
+            <div class="nav-main">
 
-            <button onclick="showPage('jobs')">Find jobs</button>
+                <button data-page="home" class="active" onclick="showPage('home')">Home</button>
 
-            <button onclick="showPage('about')">About</button>
+                <button data-page="jobs" onclick="showPage('jobs')">Jobs</button>
 
-            <span id="guestNav">
+                <button data-page="about" onclick="showPage('about')">About</button>
 
-                <button onclick="showPage('login')">Log in</button>
+                <button data-page="dashboard" id="navDashboard" class="hidden" onclick="showPage('dashboard')">Dashboard</button>
 
-                <button class="nav-register" onclick="showPage('register')">Create account</button>
+            </div>
 
-            </span>
+            <div class="nav-auth">
 
-            <span id="userNav" class="hidden">
+                <span id="guestNav">
 
-                <button onclick="showPage('dashboard')">Dashboard</button>
+                    <button class="btn btn-outline" onclick="showPage('login')">Login</button>
 
-                <button onclick="logout()">Log out</button>
+                    <button class="btn btn-primary" onclick="showPage('register')">Sign up</button>
 
-            </span>
+                </span>
+
+                <span id="userNav" class="hidden">
+
+                    <button class="btn btn-outline" onclick="logout()">Log out</button>
+
+                </span>
+
+            </div>
 
         </nav>
 

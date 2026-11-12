@@ -1,35 +1,42 @@
 /* =========================================================
    BASE: tokens, reset, typography
-   Theme: "work zone" — site signage. Concrete paper,
-   charcoal ink, safety-yellow as the one loud colour.
+   Theme: fresh green — malinis, maliwanag, pill buttons
 ========================================================= */
 
 :root {
-    --paper: #eef0eb;        /* concrete */
+    --bg: #f6faf7;
     --surface: #ffffff;
-    --ink: #1c2026;          /* charcoal */
-    --ink-soft: #2a3038;
-    --muted: #5b6470;
-    --line: #d5d9d0;
-    --line-strong: #1c2026;
+    --ink: #13261c;
+    --ink-soft: #2c3d33;
+    --muted: #5f6f66;
+    --line: #e2eae5;
 
-    --signal: #ffc629;       /* safety yellow */
-    --signal-deep: #e0a800;
-    --signal-wash: #fff4cc;
+    --green: #1f8a4c;
+    --green-dark: #166b3a;
+    --green-wash: #e6f4eb;
+    --green-soft: #f1f9f3;
 
-    --success: #1e7a4c;
-    --success-wash: #def3e6;
-    --danger: #b83a24;
-    --danger-wash: #fbe3dd;
-    --info: #2b5c9e;
-    --info-wash: #e1ebf7;
+    --yellow: #f5c13d;
 
-    --radius-sm: 4px;
-    --radius: 8px;
+    --success: #1f8a4c;
+    --success-wash: #e6f4eb;
+    --danger: #c0392b;
+    --danger-wash: #fdeceA;
+    --info: #2867b2;
+    --info-wash: #e6effa;
+    --warn: #8a6100;
+    --warn-wash: #fff4d6;
 
-    --font: "Archivo", "Segoe UI", Arial, sans-serif;
+    --radius-sm: 8px;
+    --radius: 14px;
+    --radius-lg: 22px;
+    --pill: 999px;
 
-    --nav-h: 68px;
+    --shadow: 0 1px 2px rgba(19, 38, 28, 0.04), 0 6px 20px rgba(19, 38, 28, 0.06);
+
+    --font: "Plus Jakarta Sans", "Segoe UI", Arial, sans-serif;
+
+    --nav-h: 72px;
 }
 
 *,
@@ -48,7 +55,7 @@ body {
     font-family: var(--font);
     font-size: 16px;
     line-height: 1.55;
-    background: var(--paper);
+    background: var(--bg);
     color: var(--ink);
     -webkit-font-smoothing: antialiased;
 }
@@ -56,16 +63,8 @@ body {
 h1,
 h2,
 h3 {
-    line-height: 1.1;
+    line-height: 1.12;
     font-weight: 800;
-    letter-spacing: -0.01em;
-}
-
-/* Expanded width = the "signboard" voice of the brand */
-.display {
-    font-stretch: 125%;
-    font-variation-settings: "wdth" 125;
-    font-weight: 900;
     letter-spacing: -0.02em;
 }
 
@@ -86,7 +85,7 @@ a {
 }
 
 :focus-visible {
-    outline: 3px solid var(--signal-deep);
+    outline: 3px solid rgba(31, 138, 76, 0.45);
     outline-offset: 2px;
 }
 
@@ -96,7 +95,7 @@ a {
 
 .container {
     width: 92%;
-    max-width: 1180px;
+    max-width: 1200px;
     margin: 0 auto;
 }
 
@@ -111,12 +110,11 @@ a {
     stroke-linejoin: round;
 }
 
-/* Small sentence-case kicker, used sparingly */
 .kicker {
     display: block;
     color: var(--muted);
     font-size: 15px;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
 }
 
 @media (prefers-reduced-motion: reduce) {

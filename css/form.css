@@ -22,25 +22,26 @@
 
 .form-control {
     width: 100%;
-    padding: 11px 12px;
-    border: 2px solid var(--line);
+    padding: 12px 14px;
+    border: 1.5px solid var(--line);
     border-radius: var(--radius-sm);
     background: var(--surface);
     color: var(--ink);
     outline: none;
-    transition: border-color 0.15s;
+    transition: border-color 0.15s, box-shadow 0.15s;
 }
 
 .form-control:hover {
-    border-color: #b9beb4;
+    border-color: #c8d5cd;
 }
 
 .form-control:focus {
-    border-color: var(--ink);
+    border-color: var(--green);
+    box-shadow: 0 0 0 4px var(--green-wash);
 }
 
 .form-control[readonly] {
-    background: var(--paper);
+    background: var(--bg);
     color: var(--muted);
 }
 
@@ -52,11 +53,4 @@ textarea.form-control {
     color: var(--muted);
     font-size: 13px;
     margin-top: 5px;
-}
-
-/* Role picker on register */
-.role-picker {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
 }
