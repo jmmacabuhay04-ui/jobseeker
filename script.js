@@ -462,8 +462,8 @@ function createJobCard(job) {
 
             <div class="job-head">
 
-                <div class="company-logo" style="background:${logoColor(job.company)}" aria-hidden="true">
-                    ${escapeHTML(companyInitials(job.company))}
+                <div class="company-logo cat-icon" aria-hidden="true">
+                    ${categoryIcon(job.category)}
                 </div>
 
                 <div>
@@ -505,23 +505,76 @@ function createJobCard(job) {
 }
 
 
-/* Logo placeholder: initials ng company + kulay na laging pareho */
+/* =========================================================
+   CATEGORIES
+   value = naka-save sa database, label = nakikita ng user
+========================================================= */
 
-function companyInitials(name) {
-    return String(name || "?")
-        .split(/\s+/)
-        .filter(Boolean)
-        .slice(0, 2)
-        .map(word => word[0].toUpperCase())
-        .join("");
+const CATEGORIES = [
+    { value: "IT", label: "IT & Development", icon: "it" },
+    { value: "Design", label: "Design & Creative", icon: "design" },
+    { value: "Marketing", label: "Marketing & Sales", icon: "marketing" },
+    { value: "Business", label: "Business & Management", icon: "business" },
+    { value: "Finance", label: "Finance & Accounting", icon: "finance" },
+    { value: "Healthcare", label: "Healthcare & Medical", icon: "health" },
+    { value: "Education", label: "Education & Training", icon: "education" },
+    { value: "Engineering", label: "Engineering & Technical", icon: "engineering" },
+    { value: "HR", label: "Human Resources", icon: "hr" },
+    { value: "Customer Service", label: "Customer Service", icon: "support" },
+    { value: "Manufacturing", label: "Manufacturing & Production", icon: "manufacturing" },
+    { value: "Other", label: "Other categories", icon: "other" }
+];
+
+
+/* Kung wala sa listahan ang category ng job, "Other" ang gamit */
+
+function findCategory(value) {
+    return (
+        CATEGORIES.find(category => category.value === value) ||
+        CATEGORIES[CATEGORIES.length - 1]
+    );
 }
 
 
-function logoColor(name) {
-    const colors = ["#1f8a4c", "#2867b2", "#d9822b", "#7b4fc4", "#c0392b", "#138a8a"];
-    let hash = 0;
-    for (const char of String(name || "")) hash = (hash * 31 + char.charCodeAt(0)) >>> 0;
-    return colors[hash % colors.length];
+function categoryIcon(value) {
+    return `<svg aria-hidden="true"><use href="#cat-${findCategory(value).icon}" /></svg>`;
+}
+
+
+function renderCategories() {
+
+    const container = document.getElementById("categoryGrid");
+
+    if (!container) return;
+
+    container.innerHTML = CATEGORIES.map(category => {
+
+        const count = jobs.filter(
+            job => findCategory(job.category).value === category.value
+        ).length;
+
+        return `
+            <button class="category-card" onclick="browseCategory('${category.value}')">
+                <span class="cat-icon">${categoryIcon(category.value)}</span>
+                <span class="category-text">
+                    <strong>${category.label}</strong>
+                    <small>${count === 1 ? "1 job" : count + " jobs"}</small>
+                </span>
+                <span class="category-go">${icon("arrow")}</span>
+            </button>
+        `;
+    }).join("");
+}
+
+
+function browseCategory(value) {
+
+    document.getElementById("filterKeyword").value = "";
+    document.getElementById("filterLocation").value = "";
+    document.getElementById("filterType").value = "";
+    document.getElementById("filterCategory").value = value;
+
+    showPage("jobs");
 }
 
 
@@ -552,12 +605,14 @@ function renderFeaturedJobs() {
             </div>
         `;
         updateHomeStats();
+        renderCategories();
         return;
     }
 
     container.innerHTML = featured.map(createJobCard).join("");
 
     updateHomeStats();
+    renderCategories();
 }
 
 
@@ -667,6 +722,7 @@ function filterJobs() {
             ${job.company}
             ${job.location}
             ${job.category}
+            ${findCategory(job.category).label}
             ${job.skills.join(" ")}
         `.toLowerCase();
 
@@ -676,7 +732,9 @@ function filterJobs() {
             .toLowerCase()
             .includes(location);
 
-        const matchesCategory = !category || job.category === category;
+        // "Other" = kasama rin ang mga job na wala sa listahan ng categories
+        const matchesCategory =
+            !category || findCategory(job.category).value === category;
 
         const matchesType = !type || job.type === type;
 

@@ -23,7 +23,8 @@
         padding-left: 0;
     }
 
-    .job-grid {
+    .job-grid,
+    .category-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
@@ -159,6 +160,7 @@
     }
 
     .job-grid,
+    .category-grid,
     .filter-grid {
         grid-template-columns: 1fr;
     }
