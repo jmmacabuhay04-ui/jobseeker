@@ -6,6 +6,10 @@
     padding: 48px 0 64px;
 }
 
+.section-tight {
+    padding-bottom: 0;
+}
+
 .section-header {
     display: flex;
     align-items: center;
